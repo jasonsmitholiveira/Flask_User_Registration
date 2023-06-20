@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consultar Peça</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Consultar Peça</h1>
+    <form method="post" action="/consultar_peca">
+        <label for="opcao">Opção:</label>
+        <select id="opcao" name="opcao" required>
+            <option value="1">Consultar todas as peças</option>
+            <option value="2">Consultar peça por código</option>
+            <option value="3">Consultar peças por fabricante</option>
+        </select>
+        <input type="submit" value="Consultar">
+    </form>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    {% if pecas %}
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Fabricante</th>
+                <th>Valor</th>
+            </tr>
+            {% for peca in pecas %}
+                <tr>
+                    <td>{{ peca["codigo"] }}</td>
+                    <td>{{ peca["nome"] }}</td>
+                    <td>{{ peca["fabricante"] }}</td>
+                    <td>{{ peca["valor"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
