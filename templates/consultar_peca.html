@@ -1,43 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Consultar Peça</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>Consultar Peça</h1>
-    <form method="post" action="/consultar_peca">
-        <label for="opcao">Opção:</label>
-        <select id="opcao" name="opcao" required>
-            <option value="1">Consultar todas as peças</option>
-            <option value="2">Consultar peça por código</option>
-            <option value="3">Consultar peças por fabricante</option>
-        </select>
-        <input type="submit" value="Consultar">
-    </form>
+{% extends "base.html" %}
+{% block title %}Consultar Peça{% endblock %}
 
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
+{% block content %}
+<h1>Consultar Peça</h1>
+<form method="post">
+    <label>Opção de Consulta:</label>
+    <select name="opcao">
+        <option value="1">Listar todas as peças</option>
+        <option value="2">Consultar por código</option>
+        <option value="3">Consultar por fabricante</option>
+    </select>
+    <br>
 
-    {% if pecas %}
-        <table>
-            <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Fabricante</th>
-                <th>Valor</th>
-            </tr>
-            {% for peca in pecas %}
-                <tr>
-                    <td>{{ peca["codigo"] }}</td>
-                    <td>{{ peca["nome"] }}</td>
-                    <td>{{ peca["fabricante"] }}</td>
-                    <td>{{ peca["valor"] }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+    <label for="codigo">Código da Peça:</label>
+    <input type="text" id="codigo" name="codigo">
+    <br>
+
+    <label for="fabricante">Fabricante:</label>
+    <input type="text" id="fabricante" name="fabricante">
+    <br>
+
+    <button type="submit">Consultar</button>
+</form>
+
+{% if pecas %}
+    <h2>Resultado da Consulta</h2>
+    <ul>
+        {% for peca in pecas %}
+            <li>
+                {{ peca.nome }} (Código: {{ peca.id }})<br>
+                Fabricante: {{ peca.fabricante }}<br>
+                Descrição: {{ peca.descricao }}<br>
+                Valor: R$ {{ peca.valor }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

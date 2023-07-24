@@ -1,23 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cadastrar Peça</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>Cadastrar Peça</h1>
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
-    <form method="post" action="/cadastrar_peca">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br>
-        <label for="fabricante">Fabricante:</label>
-        <input type="text" id="fabricante" name="fabricante" required><br>
-        <label for="valor">Valor:</label>
-        <input type="number" id="valor" name="valor" step="0.01" required><br>
-        <input type="submit" value="Cadastrar">
-    </form>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Cadastrar Peça{% endblock %}
+
+{% block content %}
+<h1>Cadastrar Peça</h1>
+<form method="post">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required>
+    <br>
+
+    <label for="fabricante">Fabricante:</label>
+    <input type="text" id="fabricante" name="fabricante" required>
+    <br>
+
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao" rows="4" required></textarea>
+    <br>
+
+    <label for="valor">Valor:</label>
+    <input type="text" id="valor" name="valor" required>
+    <br>
+
+    <button type="submit">Cadastrar</button>
+</form>
+{% endblock %}

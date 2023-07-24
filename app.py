@@ -1,89 +1,175 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Blueprint
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app1 = Flask(__name__)
 
-codigo = 1
-pecas = []
+# Criação do Blueprint
+blueprint1 = Blueprint('app1', __name__)
 
-@app.route('/')
+# Configurando o banco de dados SQLite
+app1.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy(app1)
+
+
+# Criando o modelo do banco de dados para Peca (peça) e Cliente (cliente)
+class Peca(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    fabricante = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text, nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+
+
+class Cliente(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome_completo = db.Column(db.String(200), nullable=False)
+    endereco_completo = db.Column(db.Text, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    telefone = db.Column(db.String(20), nullable=False)
+    concorda_termos = db.Column(db.Boolean, nullable=False, default=False)  # Default value set to False
+
+# Função para criar as tabelas do banco de dados
+def create_tables():
+    with app1.app_context():
+        db.create_all()
+
+
+# Rota para a página inicial
+@app1.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/cadastrar_peca', methods=['GET', 'POST'])
+
+# Rota para cadastrar uma nova Peca (peça)
+@app1.route('/cadastrar_peca', methods=['GET', 'POST'])
 def cadastrar_peca():
-    global codigo
-
     if request.method == 'POST':
-        nome = request.form['nome']
-        fabricante = request.form['fabricante']
-        valor = float(request.form['valor'])
+        nome = request.form.get('nome')
+        fabricante = request.form.get('fabricante')
+        descricao = request.form.get('descricao')
+        valor = request.form.get('valor')
 
-        peca = {"codigo": codigo, "nome": nome, "fabricante": fabricante, "valor": valor}
-        pecas.append(peca)
+        # Verificando se todos os campos estão preenchidos
+        if not nome or not fabricante or not descricao or not valor:
+            return render_template('error.html', message='Preencha todos os campos para cadastrar a peça.')
 
-        codigo += 1
+        try:
+            valor = float(valor)
+        except ValueError:
+            return render_template('error.html', message='O valor precisa ser um número válido.')
 
-        return render_template('cadastrar_peca.html', message='Peça cadastrada com sucesso!')
+        # Criando um novo objeto Peca e adicionando-o ao banco de dados
+        peca = Peca(nome=nome, fabricante=fabricante, descricao=descricao, valor=valor)
+        db.session.add(peca)
+
+        # Realizando o commit para salvar a nova peça no banco de dados
+        db.session.commit()
+
+        return render_template('success.html', message='Peça cadastrada com sucesso!')
 
     return render_template('cadastrar_peca.html')
 
-@app.route('/consultar_peca', methods=['GET', 'POST'])
+
+# Rota para consultar os dados da Peca (peça)
+@app1.route('/consultar_peca', methods=['GET', 'POST'])
 def consultar_peca():
     if request.method == 'POST':
-        opcao = request.form['opcao']
+        opcao = request.form.get('opcao')
 
         if opcao == '1':
-            if len(pecas) == 0:
-                return render_template('consultar_peca.html', message='Não há peças cadastradas.', pecas=pecas)
-            else:
-                return render_template('consultar_peca.html', pecas=pecas)
+            # Obtendo todas as peças do banco de dados
+            pecas = Peca.query.all()
+
+            return render_template('consultar_peca.html', pecas=pecas)
+
         elif opcao == '2':
-            codigo = int(request.form['codigo'])
-            encontrou = False
+            codigo = request.form.get('codigo')
+            if not codigo:
+                return render_template('error.html', message='Digite um código para consultar a peça.')
 
-            # Procurar peça por código
-            for peca in pecas:
-                if peca["codigo"] == codigo:
-                    return render_template('consultar_peca.html', pecas=[peca], editar=True)
-                    encontrou = True
-                    break
+            try:
+                codigo = int(codigo)
+            except ValueError:
+                return render_template('error.html', message='O código precisa ser um número válido.')
 
-            if not encontrou:
-                return render_template('consultar_peca.html', message='Peça não encontrada.', pecas=pecas)
+            # Obtendo uma peça específica do banco de dados com base no código fornecido
+            peca = Peca.query.get(codigo)
+            if not peca:
+                return render_template('error.html', message='Peça não encontrada.')
+
+            return render_template('consultar_peca.html', pecas=[peca], editar=True)
+
         elif opcao == '3':
-            fabricante = request.form['fabricante']
-            encontrou = False
-            pecas_fabricante = []
+            fabricante = request.form.get('fabricante')
+            if not fabricante:
+                return render_template('error.html', message='Digite um fabricante para consultar as peças.')
 
-            # Procurar peças por fabricante
-            for peca in pecas:
-                if peca["fabricante"].lower() == fabricante.lower():
-                    pecas_fabricante.append(peca)
-                    encontrou = True
+            # Obtendo todas as peças do banco de dados com base no fabricante fornecido
+            pecas = Peca.query.filter(Peca.fabricante.ilike(fabricante)).all()
 
-            if not encontrou:
-                return render_template('consultar_peca.html', message='Nenhuma peça encontrada para este fabricante.', pecas=pecas)
-
-            return render_template('consultar_peca.html', pecas=pecas_fabricante)
+            return render_template('consultar_peca.html', pecas=pecas)
 
     return render_template('consultar_peca.html')
 
-@app.route('/remover_peca', methods=['GET', 'POST'])
+
+# Rota para remover uma Peca (peça) do banco de dados
+@app1.route('/remover_peca', methods=['GET', 'POST'])
 def remover_peca():
     if request.method == 'POST':
-        codigo = int(request.form['codigo'])
-        encontrou = False
+        codigo = request.form.get('codigo')
+        if not codigo:
+            return render_template('error.html', message='Digite um código para remover a peça.')
 
-        for peca in pecas:
-            if peca["codigo"] == codigo:
-                pecas.remove(peca)
-                encontrou = True
-                return render_template('remover_peca.html', message='Peça removida com sucesso!')
+        try:
+            codigo = int(codigo)
+        except ValueError:
+            return render_template('error.html', message='O código precisa ser um número válido.')
 
-        if not encontrou:
-            return render_template('remover_peca.html', message='Peça não encontrada.')
+        # Obtendo o objeto Peca a ser removido do banco de dados com base no código fornecido
+        peca = Peca.query.get(codigo)
+        if not peca:
+            return render_template('error.html', message='Peça não encontrada.')
+
+        # Removendo o objeto Peca do banco de dados
+        db.session.delete(peca)
+        db.session.commit()
+
+        return render_template('success.html', message='Peça removida com sucesso!')
 
     return render_template('remover_peca.html')
 
+
+# Rota para cadastrar um novo Cliente (cliente)
+@app1.route('/cadastrar_cliente', methods=['GET', 'POST'])
+def cadastrar_cliente():
+    if request.method == 'POST':
+        nome_completo = request.form.get('nome_completo')
+        endereco_completo = request.form.get('endereco_completo')
+        email = request.form.get('email')
+        telefone = request.form.get('telefone')
+
+        # Verificando se todos os campos estão preenchidos
+        if not nome_completo or not endereco_completo or not email or not telefone:
+            return render_template('error.html', message='Preencha todos os campos para cadastrar o cliente.')
+
+        # Verificando se um cliente com o mesmo email já existe no banco de dados
+        cliente_existente = Cliente.query.filter_by(email=email).first()
+        if cliente_existente:
+            return render_template('error.html', message='Este email já está cadastrado.')
+
+        # Criando um novo objeto Cliente e adicionando-o ao banco de dados
+        cliente = Cliente(nome_completo=nome_completo, endereco_completo=endereco_completo,
+                          email=email, telefone=telefone)
+
+        db.session.add(cliente)
+        db.session.commit()
+
+        return render_template('success.html', message='Cadastro realizado com sucesso!')
+
+    return render_template('cadastrar_cliente.html')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Criando as tabelas do banco de dados antes de executar a aplicação
+    create_tables()
+    app1.run(debug=True)

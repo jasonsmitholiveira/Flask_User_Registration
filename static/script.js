@@ -1,17 +1,18 @@
 // script.js
 
-// Função para fechar as mensagens após um certo tempo
+// Function to close messages after a certain time
 function closeMessages() {
   const messages = document.getElementsByClassName('message');
 
   for (let i = 0; i < messages.length; i++) {
     const message = messages[i];
 
+    // Use setTimeout to hide the message after 3000 milliseconds (3 seconds)
     setTimeout(() => {
       message.style.display = 'none';
     }, 3000);
   }
 }
 
-// Chama a função para fechar as mensagens ao carregar a página
+// Call the function to close messages when the window loads
 window.onload = closeMessages;
