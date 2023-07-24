@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <h1>Registration Page</h1>
+    <form method="post" action="/register">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br><br>
+        <label for="full_name">Full Name:</label>
+        <input type="text" name="full_name" id="full_name" required><br><br>
+        <label for="address">Address:</label>
+        <textarea name="address" id="address" required></textarea><br><br>
+        <input type="submit" value="Register">
+    </form>
+
+{% endblock %}
