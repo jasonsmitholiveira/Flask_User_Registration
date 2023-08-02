@@ -1,13 +1,14 @@
+import json
 import os
 from flask import Flask, render_template, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, FileField, PasswordField, validators
 from werkzeug.security import generate_password_hash
 from wtforms import BooleanField
 import requests
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(16)  # Gerar uma chave secreta aleatória
@@ -15,11 +16,23 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # Configurar o URI
 app.config['UPLOAD_FOLDER'] = 'uploads'  # Adicionar a pasta para armazenar os arquivos enviados
 db = SQLAlchemy(app)
 
+# Carregar as informações do arquivo swagger.json
+with open('swagger.json', 'r') as swagger_file:
+    swagger_data = json.load(swagger_file)
+
+PRODUCTION_ENDPOINT = "https://apigateway.conectagov.estaleiro.serpro.gov.br/api-cpf-light/v2/consulta/cpf"
+PRODUCTION_TOKEN_URL = "https://apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token"
+
+CLIENT_ID = 'YOUR_CLIENT_ID'
+CLIENT_SECRET = 'YOUR_CLIENT_SECRET'
+
 # Classificações de Gênero
 GENERO_CHOICES = [('', ''), ('masculino', 'Masculino'), ('feminino', 'Feminino'), ('outro', 'Outro')]
 
 # Classificações de Estado Civil
-ESTADO_CIVIL_CHOICES = [('', ''), ('solteiro', 'Solteiro'), ('casado', 'Casado'), ('divorciado', 'Divorciado'), ('viuvo', 'Viúvo')]
+ESTADO_CIVIL_CHOICES = [('', ''), ('solteiro', 'Solteiro'), ('casado', 'Casado'), ('divorciado', 'Divorciado'),
+                        ('viuvo', 'Viúvo')]
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,26 +60,39 @@ class CadastroForm(FlaskForm):
         validators.InputRequired(),
         validators.Length(min=11, max=14, message="CPF/CNPJ deve ter 11 ou 14 números.")
     ])  # Campo para CPF/CNPJ (obrigatório)
-    nome_completo = StringField('Nome Completo', validators=[validators.InputRequired()])  # Campo para nome completo (obrigatório)
-    data_nascimento = DateField('Data de Nascimento', format='%Y-%m-%d', validators=[validators.InputRequired()])  # Campo para data de nascimento (obrigatório)
+    nome_completo = StringField('Nome Completo',
+                                validators=[validators.InputRequired()])  # Campo para nome completo (obrigatório)
+    data_nascimento = DateField('Data de Nascimento', format='%Y-%m-%d',
+                                validators=[validators.InputRequired()])  # Campo para data de nascimento (obrigatório)
     genero = SelectField('Gênero', choices=GENERO_CHOICES)  # Campo para selecionar gênero
     estado_civil = SelectField('Estado Civil', choices=ESTADO_CIVIL_CHOICES)  # Campo para selecionar estado civil
-    email = StringField('E-mail', validators=[validators.InputRequired(), validators.Email()])  # Campo para email (obrigatório e validado como email)
+    email = StringField('E-mail', validators=[validators.InputRequired(),
+                                              validators.Email()])  # Campo para email (obrigatório e validado como email)
     telefone = StringField('Telefone', validators=[
         validators.InputRequired(),
         validators.Length(min=11, max=11, message="Telefone deve conter 11 números (DDD + número do telefone, juntos).")
     ])  # Campo para número de telefone (obrigatório)
-    senha = PasswordField('Senha', validators=[validators.InputRequired(), validators.EqualTo('confirmar_senha', 'As senhas devem ser iguais.')])  # Campo para senha (obrigatório) e validação de confirmação de senha
-    confirmar_senha = PasswordField('Confirmar Senha', validators=[validators.InputRequired()])  # Campo para confirmar senha (obrigatório)
+    senha = PasswordField('Senha', validators=[validators.InputRequired(), validators.EqualTo('confirmar_senha',
+                                                                                              'As senhas devem ser iguais.')])  # Campo para senha (obrigatório) e validação de confirmação de senha
+    confirmar_senha = PasswordField('Confirmar Senha',
+                                    validators=[validators.InputRequired()])  # Campo para confirmar senha (obrigatório)
     endereco_cep = StringField('CEP', validators=[validators.InputRequired()])  # Campo para CEP (obrigatório)
-    endereco_logradouro = StringField('Logradouro', validators=[validators.InputRequired()])  # Campo para logradouro (obrigatório)
-    endereco_numero = StringField('Número', validators=[validators.InputRequired()])  # Campo para número do endereço (obrigatório)
-    endereco_complemento = StringField('Complemento', validators=[validators.InputRequired()])  # Campo para complemento do endereço (obrigatório)
-    endereco_bairro = StringField('Bairro', validators=[validators.InputRequired()])  # Campo para bairro do endereço (obrigatório)
-    endereco_cidade = StringField('Cidade', validators=[validators.InputRequired()])  # Campo para cidade do endereço (obrigatório)
-    endereco_estado = StringField('Estado', validators=[validators.InputRequired()])  # Campo para estado do endereço (obrigatório)
-    identificacao = FileField('Identificação', validators=[validators.InputRequired()])  # Campo para arquivo de identificação (obrigatório)
-    politica = BooleanField('Aceito os termos e condições ao realizar o cadastro.', validators=[validators.InputRequired()])  # Campo para aceitar os termos e condições ao realizar o cadastro (obrigatório)
+    endereco_logradouro = StringField('Logradouro',
+                                      validators=[validators.InputRequired()])  # Campo para logradouro (obrigatório)
+    endereco_numero = StringField('Número', validators=[
+        validators.InputRequired()])  # Campo para número do endereço (obrigatório)
+    endereco_complemento = StringField('Complemento', validators=[
+        validators.InputRequired()])  # Campo para complemento do endereço (obrigatório)
+    endereco_bairro = StringField('Bairro', validators=[
+        validators.InputRequired()])  # Campo para bairro do endereço (obrigatório)
+    endereco_cidade = StringField('Cidade', validators=[
+        validators.InputRequired()])  # Campo para cidade do endereço (obrigatório)
+    endereco_estado = StringField('Estado', validators=[
+        validators.InputRequired()])  # Campo para estado do endereço (obrigatório)
+    identificacao = FileField('Identificação', validators=[
+        validators.InputRequired()])  # Campo para arquivo de identificação (obrigatório)
+    politica = BooleanField('Aceito os termos e condições ao realizar o cadastro.', validators=[
+        validators.InputRequired()])  # Campo para aceitar os termos e condições ao realizar o cadastro (obrigatório)
 
     def fetch_address_data(cep):
         # Função para buscar dados de endereço com base no CEP
@@ -84,9 +110,11 @@ class CadastroForm(FlaskForm):
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
+
 def allowed_file(filename):
     # Função para verificar se o arquivo possui uma extensão permitida
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/', methods=['GET', 'POST'])
 def cadastro_usuario():
@@ -135,6 +163,49 @@ def cadastro_usuario():
 
     return render_template('cadastro.html', form=form)
 
+@app.route('/verificar_cpf', methods=['POST'])
+def verificar_cpf():
+    cpf = request.form['cpf_cnpj']
+    data_nascimento = request.form['data_nascimento']
+
+    # Verificar se o CPF possui 11 dígitos e se a data de nascimento está no formato correto (YYYY-MM-DD)
+    if len(cpf) == 11 and data_nascimento:
+        access_token = get_access_token()
+
+        if access_token:
+            headers = {
+                'Authorization': f'Bearer {access_token}'
+            }
+            response = requests.get(PRODUCTION_ENDPOINT + f'/{cpf}', headers=headers)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                # Verificar se a consulta foi bem-sucedida e obter o nome completo
+                if data.get('status') == 'OK':
+                    nome_completo = data.get('nome_completo', '')
+                    return jsonify({'status': 'success', 'nome_completo': nome_completo})
+                else:
+                    return jsonify({'status': 'error', 'message': 'CPF não encontrado ou situação cadastral inválida.'})
+            else:
+                return jsonify({'status': 'error', 'message': 'Erro ao consultar o CPF.'})
+        else:
+            return jsonify({'status': 'error', 'message': 'Erro ao obter o token de acesso.'})
+    else:
+        return jsonify({'status': 'error', 'message': 'CPF ou data de nascimento inválidos.'})
+
+def get_access_token():
+    access_token_response = requests.post(PRODUCTION_TOKEN_URL, data={
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'client_credentials'
+    })
+
+    if access_token_response.status_code == 200:
+        access_token_data = access_token_response.json()
+        return access_token_data.get('access_token', '')
+    else:
+        return None
 @app.route('/verificar_email', methods=['POST'])
 def verificar_email():
     email = request.form['email']

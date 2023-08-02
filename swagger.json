@@ -1,0 +1,925 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Serviço de Consultas On-line, que consiste em prover acesso aos dados não protegidos por sigilo fiscal constantes de base de dados da Secretaria da Receita Federal do Brasil (RFB), para órgãos e entidades da Administração Pública Federal direta, autárquica e fundacional nos termos da Portaria RFB nº 1384, de 09 de setembro de 2016.\nÉ altamente recomendada a utilização da versão 2 da API CPF-Light. \n___\n# Endpoints\n\n* Endpoint Produção: [https://apigateway.conectagov.estaleiro.serpro.gov.br/api-cpf-light/v2/consulta/cpf](https://apigateway.conectagov.estaleiro.serpro.gov.br/api-cpf-light/v2/consulta/cpf) \n\n* Endpoint Homologação: [https://h-apigateway.conectagov.estaleiro.serpro.gov.br/api-cpf-light/v2/consulta/cpf](https://h-apigateway.conectagov.estaleiro.serpro.gov.br/api-cpf-light/v2/consulta/cpf)\n\n### Endpoints Access Token\n* Endpoint Access Token URL de Produção: [https://apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token](https://apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token) \n\n* Endpoint Access Token URL de Homologação: [https://h-apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token](https://h-apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token)\n\n> CPFs disponíveis para consulta no ambiente de Homologação:\n> * 77689062768,\n> * 00045024936,\n> * 01182101062,\n> * 21316016897,\n> * 26616776824,\n> * 72002557853,\n> * 90678117934,\n> * 82272182100,\n> * 82272387187,\n> * 82271577187\n___\n# Campos Retornados\n\n| Nome | Tipo | Conteúdo | \n| ---------------------- | ---------------------- | :------------------------------------------------------------- |\n| CPF         | string    | CPF do cidadão  |\n Nome         | string      | Nome do cidadão -<br> Se estiver vazio, neste caso, a situação cadastral constará como “3. suspensa”  |\n NomeSocial   | string      | Nome social do cidadão  <br><br>Obs: Esse campo só é preenchido para pessoas travestis e transsexuais que solicitam a inclusão por meio de formulário específico. Portanto se não for o caso, o campo estará vazio.<br><br>Se estiver preenchido, deve ser por esse campo que o cidadão deverá ser chamado.|\n SituacaoCadastral         | string      | Situação do CPF na Receita: <br> 0. Regular -  quando não há inconsistência cadastral e não constar omissão de DIRPF;Obs.: excepcionalmente, pode ocorrer de existir um CPF regular com inconsistência ainda não detectada ou tratada.<br>2. Suspensa -  quando há inconsistência de ordem cadastral;<br>3 - Titular Falecido -  quando há data de óbito vinculada ao CPF;<br>4. Pendente de Regularização -  quando há omissão de DIRPF em um dos últimos 5 exercícios;<br>5. Cancelada por Multiplicidade - quando há mais de uma inscrição no CPF para a mesma pessoa; nesse caso, elege-se um para permanecer ativo e os demais são vinculados a ele;<br>8. Nula - quando constatada a fraude.<br>9. Cancelada de Ofício - ato de ofício, no interesse da administração tributária ou determinação judicial.<br><br>Cada serviço público deverá definir qual situação cadastral será aceita.|\n ResidenteExterior         | string      | N - Não; S - Sim <br><br>O endereço não fica vazio (ele é preenchido com dados do endereço no exterior) e o CEP informado sempre será 70.000-000.|\n CodigoPaisExterior        | string      | Código do país se residente no exterior  (tabela própria da Receita)|\n NomePaisExterior          | string      | Nome do país se residente no exterior (tabela própria da Receita) |\n NomeMae | string      | Nome da mãe do cidadão  - <br>pode estar vazio, neste caso, a situação cadastral constará como “3. suspensa”|\n DataNascimento         | string      | AAAAMMDD - <br>pode estar vazio, neste caso, a situação cadastral constará como “3. suspensa”  |\n Sexo         | integer      | 1 - Masculino;<br>2 - Feminino;<br>3 - Não Informado  |\n NaturezaOcupacao          | string       | Código da natureza da ocupação  |\n NomeNaturezaOcupacao       | string      | Nome da natureza da ocupação <br>(tabela própria da Receita)  |\n OcupacaoPrincipal          | string      | Código da ocupação  principal<br>(tabela própria da Receita)|\n NomeOcupacaoPrincipal      | string      | Nome da ocupação  principal<br>(tabela própria da Receita)|\n ExercicioOcupacao          | string      | Ano do exercício da ocupação<br>(tabela própria da Receita)<br><br>|\n NomeUnidadeAdministrativa  | string      | Nome da unidade administrativa<br>(tabela própria da Receita)  |\n TipoLogradouro             | string      | Tipo do logradouro  |\n Logradouro                 | string      | Ex: Rua A  |\n NumeroLogradouro           | string      | Ex: 123  |\n Complemento                | string      | Ex: CONJ 132  |\n Bairro         | string      | Ex: Álvaro Weyne  |\n Cep         | integer     | Ex: 70000000  |\n UF         | string      | Ex: CE  |\n CodigoMunicipio         | integer     | Ex: 1234<br> <br> Trata-se de código de tabela da RFB, a tabela TOM (órgãos e municípios)<br>Dessa tabela deriva a jurisdição tributária do contribuinte.|\n Municipio         | string      | Ex: Fortaleza  |\n DDD         | integer     | Ex: 85  |\n Telefone         | string      | Ex: 95585862  |\n UnidadeAdministrativa         | integer     | Ex: 806030 <br><br> Este campo se refere a unidade administrativa da Receita o qual o contribuinte deve se dirigir para tratar assuntos fiscais|\n AnoObito                   | integer  | AAAA <br><br>Está integrado com os cartórios, mas não possuem a informação de dados legados. <br>Deve ser feito batimento com o SIRC. |\n Estrangeiro                | string   | N - Não; S - Sim |\n DataAtualização            | string   | AAAAMMDD  |\n DataInscricao              | string   | AAAAMMDD  |\n CodPaisNacionalidade       | string   | Código do país onde o cidadão nasceu <br>(conforme tabela da RFB) |\n NomePaisNacionalidade      | string   | Nome do país onde o cidadão nasceu<br>(conforme tabela da RFB)    |\n CodigoMunicipioNaturalidade| string   | Código do município onde o cidadão nasceu<br>(conforme tabela da RFB)    |\n NomeMunicipioNaturalidade  | string   | Nome do município onde o cidadão nasceu<br>(conforme tabela da RFB)    |\n UFMunicipioNaturalidade    | string   |Sigla da UF do município onde o cidadão nasceu<br>(conforme tabela da RFB)  |\n \n <h4></h4>\n *OBS*: Atualmente existem CPFs com nome, nome da mãe ou data de nascimento vazios. CPFs nessa situação constarão na situação cadastral como “3. Suspenso”.\n\n___\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+    "version": "2.5.0",
+    "title": "API CPF Light",
+    "termsOfService": "http://normas.receita.fazenda.gov.br/sijut2consulta/link.action?idAto=77256",
+    "contact": {
+      "email": "conecta@economia.gov.br"
+    }
+  },
+  "host": "apigateway.conectagov.estaleiro.serpro.gov.br",
+  "basePath": "/api-cpf-light-trial",
+  "tags": [
+    {
+      "name": "cpf",
+      "description": "Cadastro de Pessoas Físicas"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v2/consulta/cpf": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados completos de uma lista de cidadãos",
+        "description": "",
+        "operationId": "consultaCpf",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfCompleto"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Node",
+            "source": "'use strict'\nconst express = require('express'); const router = express.Router();\n/**\n * Neste demonstração utilizamos o pacote request\n * Fique a vontade para utilizar o cliente de requisições que preferir,\n * Por exemplo, axios ou node-fetch\n */\nconst request = require('request');\nconst { isBefore } = require('date-fns');\nconst SERVER_URL = 'https://h-apigateway.conectagov.estaleiro.serpro.gov.br';  const TOKEN_REQUEST_URL = SERVER_URL + '/oauth2/jwt-token'; const CLIENT_ID = '8ddc46f2-f6a3-4077-9e04-74b55de934a5'; const CLIENT_SECRET = '06d4aaac-1412-45f6-bd7c-38b2bef0d706'; const CONSULTA_CPF_URL = SERVER_URL + '/api-cpf-light/v2/consulta/cpf';\n/**\n * O token será considerado expirado um pouco antes da data de expiração \n * para que tenhammos uma margem de segurança\n * Neste exemplo, o token tem duracao de 2 horas = 7200 segundos\n * Assim, definimos nossa janela de tempo como 5 minutos = 300 segundos\n */\nconst EXPIRATION_WINDOW_IN_SECONDS = 300\n/**\n * O mesmo token pode ser utilizado em várias vezes até a sua expiração\n * Utilizamos um variável de escopo de módulo apenas como demonstração\n * É mais interessante utilizar um modo de armazenamento mais robusto, como um cache\n */\nlet tokenStorage;\nrouter.get('/consulta-cpf', async (req, res) => {\n\n  let data_exp;\n\n  /**\n   * Tratamento do tempo de vida do token\n   * Primeiro verifica se temos um token armazenado\n   */\n  if (!tokenStorage) {\n    // Vamos obter um novo token e armazená-lo\n    try {\n      const response = await getPromiseToken();\n      tokenStorage = JSON.parse(response['body']);\n    }\n    catch(error) {\n      console.error('Erro na obtenção do token:', error);\n      return res.status(500).send();\n    }\n  } else {\n    // Validando a data de expiração do token existente\n\n    /**\n     * Data de expiração do token.\n     * Poder ser criado um cache para armazenar o token e controlar o tempo de vida do cache com a data de expiração.\n     */\n    const exp = extractExp(tokenStorage.access_token);\n    data_exp = new Date(exp * 1000);\n    console.log(`Data de expiração do token: ${data_exp}`);\n\n    /**\n     * Token expirado, deve-se obter um novo token\n     * Utilizamos o EXPIRATION_WINDOW_IN_SECONDS para obter um novo token \n     * alguns minutos antes da expiração\n     */\n    if (isBefore(data_exp, Date.now() + EXPIRATION_WINDOW_IN_SECONDS * 1000)) {\n      // Atualizando o token\n      try {\n        const response = await getPromiseToken();\n        tokenStorage = JSON.parse(response['body']);\n      }\n      catch(error) {\n        console.error('Erro na obtenção do token:', error);\n        return res.status(500).send();\n      }\n    }\n  }\n  \n  const access_token = tokenStorage.access_token;\n\n  let listaCpf;\n  try {\n    const response = await getPromiseConsultaCpf(access_token);\n    listaCpf = JSON.parse(response['body']);\n  }\n  catch(error) {\n    console.error('Erro na consulta à API CPF Light:', error);\n      return res.status(500).send();\n  }\n\n  console.log(\"---------------------------CONSULTA 1-----------------------------\");\n  console.log(listaCpf);\n\n  let listaCpf2;\n  try {\n    const response = await getPromiseConsultaCpf(access_token);\n    listaCpf2 = JSON.parse(response['body']);\n  }\n  catch(error) {\n    console.error('Erro na consulta à API CPF Light:', error);\n      return res.status(500).send();\n  }\n\n  console.log(\"---------------------------CONSULTA 2-----------------------------\");\n  console.log(listaCpf2);\n\n  res.status(200).json(listaCpf);\n\n})\n/**\n * Extrai a data de expiração (atributo exp do payload) de um token JWT\n * @param tokenJwt Token JWT válido\n */\nfunction extractExp(tokenJwt) {\n  if (tokenJwt) {\n    const parts = tokenJwt.split('.');\n    if (parts.length === 3) {\n      const payload = parts[1];\n      if (payload) {\n        return JSON.parse(Buffer.from(payload, 'base64')).exp\n      }\n    }\n  }\n  return null;\n}\n\n/*\n Formato da requisição para obtenção do token de acesso para executar as consultas às API's do Conectagov. \n  METHOD: POST\n  HEADERS:\n    Content-Type: application/x-www-form-urlencoded\n    Authorization: client_id + \":\" + client_secret codificado em Base64\n*/ function getPromiseToken() {\n  const options =  {\n    method: 'POST',\n    url: TOKEN_REQUEST_URL,\n    headers: {\n       'Content-Type' : 'application/x-www-form-urlencoded',\n       'Authorization': 'Basic ' + Buffer.from(CLIENT_ID + \":\" + CLIENT_SECRET).toString('base64'),\n    },\n    body: \"grant_type=client_credentials\",\n  }\n\n  return new Promise(function(resolve, reject) {\n    request(options, (err, res, body) => {\n      if (err) {\n        reject(err)\n      } else if (res.statusCode && res.statusCode === 200) {\n        resolve({body, status: res.statusCode});\n      } else {\n        reject({body, status: res.statusCode});\n      }\n    })\n  });\n}\n\n/*\n Formato da requisição para executar a consulta à API CPF Light:\n  METHOD: POST\n  HEADERS:\n    Content-Type: application/json\n    x-cpf-usuario: CPF do usuário que está executando a consulta.\n    Authorization: \"Bearer \" + o token de acesso gerado de acordo com a descrição da função getPromiseToken acima.\n  BODY: {\n      \"listaCpf\": [\n        \"cpf1\",\n        \"cpf2\",\n        \"cpf3\"\n        (No Máximo 50 CPF's)\n      ]\n    }\n \n*/ function getPromiseConsultaCpf(access_token) {\n  const options =  {\n    method: 'POST',\n    url: CONSULTA_CPF_URL,\n    headers: {\n       'Content-Type' : 'application/json',\n       'x-cpf-usuario': '00000000191',\n       'Authorization': 'Bearer ' + access_token,\n    },\n    body: '{\\\"listaCpf\\\": [\\\"00000000272\\\",\\\"00000000353\\\",\\\"00000000434\\\"]}',\n  }\n\n  return new Promise(function(resolve, reject) {\n    request(options, (err, res, body) => {\n      if (err) {\n        reject(err)\n      } else if (res.statusCode && res.statusCode === 200) {\n        resolve({body, status: res.statusCode});\n      } else {\n        reject({body, status: res.statusCode});\n      }\n    })\n  });\n}\nmodule.exports = router\n"
+          },
+          {
+            "lang": "Java",
+            "source": "package clientbr.gov.serpro.conectagov.client;\nimport java.io.IOException; import java.io.UnsupportedEncodingException; import java.util.Base64; import java.util.Date;\nimport org.apache.http.client.methods.CloseableHttpResponse; import org.apache.http.client.methods.HttpPost; import org.apache.http.entity.StringEntity; import org.apache.http.impl.client.CloseableHttpClient; import org.apache.http.impl.client.HttpClients; import org.apache.http.util.EntityUtils; import org.apache.oltu.oauth2.client.OAuthClient; import org.apache.oltu.oauth2.client.URLConnectionClient; import org.apache.oltu.oauth2.client.request.OAuthClientRequest; import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse; import org.apache.oltu.oauth2.common.OAuth; import org.apache.oltu.oauth2.common.exception.OAuthProblemException; import org.apache.oltu.oauth2.common.exception.OAuthSystemException;\nimport com.google.gson.JsonObject; import com.google.gson.JsonParser;\npublic class ClienteApiCpfLight {\n  \n  private static final String SERVER_URL = \"https://h-apigateway.conectagov.estaleiro.serpro.gov.br\";\n  private static final String TOKEN_REQUEST_URL = SERVER_URL + \"/oauth2/jwt-token\";\n  private static final String CLIENT_ID = \"8ddc46f2-f6a3-4077-9e04-74b55de934a5\";\n  private static final String CLIENT_SECRET = \"06d4aaac-1412-45f6-bd7c-38b2bef0d706\";\n  private static final String CONSULTA_CPF_URL = SERVER_URL + \"/api-cpf-light/v2/consulta/cpf\";\n  \n  \n  public static void main(String[] args) {\n    try {\n      OAuthJSONAccessTokenResponse token = getToken();\n      \n      /**\n       * Tempo de expiração do token em segundos.\n       * O mesmo token pode ser utilizado em várias vezes até a sua expiração.\n       */\n      Date dataExpiracao = obtemExp(token.getAccessToken());\n      System.out.println(dataExpiracao);\n      \n      //Consulta 1:\n      String resultadoConsulta = consultaCpf(token);\n      System.out.println(resultadoConsulta);\n      \n      //Consulta 2:\n      resultadoConsulta = consultaCpf(token);\n      System.out.println(resultadoConsulta);\n      \n    } catch (Exception e) {\n      // TODO Auto-generated catch block\n      e.printStackTrace();\n    }\n  }\n  \n  /**\n   * Método para decodificar o token JWT e extrair sua data de expiração\n   * @param jwtToken Token no formato padrão JWT (JSON Web Token)\n   * @return Data de expiração do token informado\n   * @throws UnsupportedEncodingException\n   */\n  private static Date obtemExp(String jwtToken) throws UnsupportedEncodingException {\n    String[] pieces = jwtToken.split(\"\\\\.\");\n    String b64payload = pieces[1];\n    String jsonString = new String(Base64.getDecoder().decode(b64payload), \"UTF-8\");\n    JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();\n    Long exp = jsonObject.get(\"exp\").getAsLong();\n    return new Date(exp * 1000);\n  }\n  \n  /*\n   * Método para executar a consulta à API CPF Light.\n   * Formato:\n   *     METHOD: POST\n   *     HEADERS:\n   *       Content-Type: application/json\n   *       x-cpf-usuario: CPF do usuário que está executando a consulta.\n   *       Authorization: \"Bearer \" + o token de acesso gerado de acordo com o método getToken\n   *     BODY: {\n   *         \"listaCpf\": [\n   *           \"cpf1\",\n   *           \"cpf2\",\n   *           \"cpf3\"\n   *           (No Máximo 50 CPF's)\n   *         ]\n   *       }\n   * \n   */\n  private static String consultaCpf(OAuthJSONAccessTokenResponse token) throws OAuthSystemException, OAuthProblemException, IOException{\n    HttpPost post = new HttpPost(CONSULTA_CPF_URL);\n        post.addHeader(\"Content-Type\", \"application/json\");\n        post.addHeader(\"x-cpf-usuario\", \"00000000191\");\n        post.addHeader(\"Authorization\", \"Bearer \"  + token.getAccessToken());\n        \n        String body = \"{\\\"listaCpf\\\": [\\\"00000000272\\\",\\\"00000000353\\\",\\\"00000000434\\\"]}\";\n        post.setEntity(new StringEntity(body));\n        \n        String resultado = \"\";\n        try (CloseableHttpClient httpClient = HttpClients.createDefault();\n             CloseableHttpResponse response = httpClient.execute(post)) {\n            resultado = EntityUtils.toString(response.getEntity());\n        }\n       \n        return resultado;\n    }\n  \n  /*\n   * Método para geração do token de acesso para executar as consultas às API's do Conectagov. \n   * Formato:\n   *     METHOD: POST\n   *     HEADERS:\n   *       Content-Type: application/x-www-form-urlencoded\n   *       Authorization: client_id + \":\" + client_secret codificado em Base64\n   *     BODY: \"grant_type=client_credentials&scope=\" + o scopo da aplicação para acesso à api\n   * \n   */\n  private static OAuthJSONAccessTokenResponse getToken() throws OAuthSystemException, OAuthProblemException{\n      OAuthClient client = new OAuthClient(new URLConnectionClient());\n  \n      OAuthClientRequest request =\n              OAuthClientRequest.tokenLocation(TOKEN_REQUEST_URL)\n              .buildQueryMessage();\n      request.addHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\n      request.addHeader(\"Authorization\", base64EncodedBasicAuthentication());\n      request.setBody(\"grant_type=client_credentials\");\n  \n      return client.accessToken(request, OAuth.HttpMethod.POST, OAuthJSONAccessTokenResponse.class);\n    }\n  \n  private static String base64EncodedBasicAuthentication() {\n    String authorization = new StringBuilder(CLIENT_ID).append(\":\").append(CLIENT_SECRET).toString();\n    authorization = Base64.getEncoder().encodeToString(authorization.getBytes()).toString();\n    return new StringBuffer(\"Basic \").append(authorization).toString();\n  }\n  \n\n}\n"
+          },
+          {
+            "lang": "Java + Oltu ",
+            "source": "package clientbr.gov.serpro.conectagov.client;\nimport java.io.BufferedReader; import java.io.IOException; import java.io.InputStreamReader; import java.io.OutputStream; import java.io.UnsupportedEncodingException; import java.net.URL; import java.util.Base64; import java.util.Date; import java.util.Map;\nimport javax.net.ssl.HttpsURLConnection;\nimport org.apache.oltu.oauth2.common.exception.OAuthProblemException; import org.apache.oltu.oauth2.common.exception.OAuthSystemException;\nimport com.fasterxml.jackson.databind.ObjectMapper; import com.google.gson.JsonObject; import com.google.gson.JsonParser;\npublic class ClienteApiCpfLightComApacheOltu {\n  \n  private static final String SERVER_URL = \"https://h-apigateway.conectagov.estaleiro.serpro.gov.br\";\n  private static final String TOKEN_REQUEST_URL = SERVER_URL + \"/oauth2/jwt-token\";\n  private static final String CLIENT_ID = \"8ddc46f2-f6a3-4077-9e04-74b55de934a5\";\n  private static final String CLIENT_SECRET = \"06d4aaac-1412-45f6-bd7c-38b2bef0d706\";\n  private static final String CONSULTA_CPF_URL = SERVER_URL + \"/api-cpf-light/v2/consulta/cpf\";\n  \n  \n  public static void main(String[] args) {\n    try {\n      Map<String, Object> token = getToken();\n      \n      /**\n       * Tempo de expiração do token em segundos.\n       * O mesmo token pode ser utilizado em várias vezes até a sua expiração.\n       */\n      Date dataExpiracao = obtemExp((String) token.get(\"access_token\"));\n      System.out.println(dataExpiracao);\n      \n      //Consulta 1:\n      String resultadoConsulta = consultaCpf(token);\n      System.out.println(resultadoConsulta);\n      \n      //Consulta 2:\n      resultadoConsulta = consultaCpf(token);\n      System.out.println(resultadoConsulta);\n    } catch (Exception e) {\n      // TODO Auto-generated catch block\n      e.printStackTrace();\n    }\n  }\n  \n  /**\n   * Método para decodificar o token JWT e extrair sua data de expiração\n   * @param jwtToken Token no formato padrão JWT (JSON Web Token)\n   * @return Data de expiração do token informado\n   * @throws UnsupportedEncodingException\n   */\n  private static Date obtemExp(String jwtToken) throws UnsupportedEncodingException {\n    String[] pieces = jwtToken.split(\"\\\\.\");\n    String b64payload = pieces[1];\n    String jsonString = new String(Base64.getDecoder().decode(b64payload), \"UTF-8\");\n    JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();\n    Long exp = jsonObject.get(\"exp\").getAsLong();\n    return new Date(exp * 1000);\n  }\n  \n  /*\n   * Método para executar a consulta à API CPF Light.\n   * Formato:\n   *     METHOD: POST\n   *     HEADERS:\n   *       Content-Type: application/json\n   *       x-cpf-usuario: CPF do usuário que está executando a consulta.\n   *       Authorization: \"Bearer \" + o token de acesso gerado de acordo com o método getToken\n   *     BODY: {\n   *         \"listaCpf\": [\n   *           \"cpf1\",\n   *           \"cpf2\",\n   *           \"cpf3\"\n   *           (No Máximo 50 CPF's)\n   *         ]\n   *       }\n   * \n   */\n  private static String consultaCpf(Map<String, Object> token) throws OAuthSystemException, OAuthProblemException, IOException{\n        URL url = new URL(CONSULTA_CPF_URL);\n        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();\n        conn.setRequestMethod(\"POST\");\n        //headers:\n        conn.setRequestProperty(\"Content-Type\", \"application/json\");\n        conn.setRequestProperty(\"x-cpf-usuario\", \"00000000191\");\n        conn.setRequestProperty(\"Authorization\", (String) token.get(\"token_type\") + \" \"  + (String) token.get(\"access_token\"));\n        conn.setDoOutput(true);\n        \n        String body = \"{\\\"listaCpf\\\": [\\\"00000000272\\\",\\\"00000000353\\\",\\\"00000000434\\\"]}\";\n        //body:\n        OutputStream os = conn.getOutputStream();\n        os.write(body.getBytes());    \n        os.close();\n\n        if (conn.getResponseCode() != 200) {\n                throw new RuntimeException(\"Falhou : HTTP error code : \" + conn.getResponseCode());\n        }\n\n        BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));\n        String linha = null;\n        String retorno = \"\";\n        while ((linha = br.readLine()) != null) {\n          retorno += linha;\n        }\n\n        conn.disconnect();\n        return retorno;\n    }\n  \n  /*\n   * Método para geração do token de acesso para executar as consultas às API's do Conectagov. \n   * Formato:\n   *     METHOD: POST\n   *     HEADERS:\n   *       Content-Type: application/x-www-form-urlencoded\n   *       Authorization: client_id + \":\" + client_secret codificado em Base64\n   *     BODY: \"grant_type=client_credentials&scope=\" + o scopo da aplicação para acesso à api\n   * \n   */\n  private static Map<String, Object> getToken() throws OAuthSystemException, OAuthProblemException, IOException{\n        URL url = new URL(TOKEN_REQUEST_URL);\n        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();\n        conn.setRequestMethod(\"POST\");\n        //headers:\n        conn.setRequestProperty(\"Content-Type\", \"application/x-www-form-urlencoded\");\n        conn.setRequestProperty(\"Authorization\", base64EncodedBasicAuthentication());\n        conn.setDoOutput(true);\n        \n        String body = (\"grant_type=client_credentials\");\n        //body\n        OutputStream os = conn.getOutputStream();\n        os.write(body.getBytes());    \n        os.close();\n\n        if (conn.getResponseCode() != 200) {\n          throw new RuntimeException(\"Falhou : HTTP error code : \" + conn.getResponseCode());\n        }\n\n        BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));\n        String linha = null;\n        String retorno = \"\";\n        while ((linha = br.readLine()) != null) {\n          retorno += linha;\n        }\n\n        conn.disconnect();\n        \n        ObjectMapper mapper = new ObjectMapper();\n        return mapper.readValue(retorno, Map.class);\n    }\n  \n  private static String base64EncodedBasicAuthentication() {\n    String authorization = new StringBuilder(CLIENT_ID).append(\":\").append(CLIENT_SECRET).toString();\n    authorization = Base64.getEncoder().encodeToString(authorization.getBytes()).toString();\n    return new StringBuffer(\"Basic \").append(authorization).toString();\n  }\n\n}\n"
+          }
+        ]
+      }
+    },
+    "/v2/consulta/dados-cadastrais": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados cadastrais de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados cadastrais dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfDadosCadastrais"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/dados-sensiveis": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados sensíveis de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados sensíveis dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfDadosSensiveis"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/identificao": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de identificação de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de identificação dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfIdentificao"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/nacionalidade-naturalidade": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de nacionalidade e naturalidade de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de nacionalidade e naturalidade dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfNacionalidade-Naturalidade"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/ocupacao": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de ocupação de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de ocupação dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfOcupacao"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/localizacao": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de localização de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de localização dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfLocalizacao"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/telemovel": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de telefonia de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de telefonia dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfTelemovel"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    },
+    "/v2/consulta/domicilio-fiscal": {
+      "post": {
+        "tags": [
+          "cpf"
+        ],
+        "summary": "Consulta os dados de domicílio fiscal de uma lista de cidadãos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-cpf-usuario",
+            "description": "CPF do usuário da requisição",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Lista com o CPFs a serem consultados",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/listaCpfs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados de domicílios fiscais dos CPFs consultados.",
+            "schema": {
+              "$ref": "#/definitions/listaCpfDomicilio_fiscal"
+            }
+          },
+          "401": {
+            "description": "Informe o CPF do usuário do sistema."
+          },
+          "412": {
+            "description": "Informe uma lista de CPFs a ser consultada."
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "OAuth2": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://apigateway.conectagov.estaleiro.serpro.gov.br/oauth2/jwt-token",
+      "description": "A autenticação é feita usando um token de acesso padrão JWT (JSON Web Token).Este token tem duração de 2 horas, recomendamos armazená-lo na aplicação cliente para uso nas Requisições ao serviço durante seu tempo de validade. Chamadas desnecessárias ao serviço de geração de tokens geram tráfego adicional na rede e podem degradar a performance da API, aumentando os tempos de resposta.",
+      "scopes": {}
+    }
+  },
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "definitions": {
+    "listaCpfs": {
+      "type": "object",
+      "properties": {
+        "listaCpf": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "listaCpfCompleto": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Completo"
+      }
+    },
+    "listaCpfDadosCadastrais": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Cadastrais"
+      }
+    },
+    "listaCpfDadosSensiveis": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Sensiveis"
+      }
+    },
+    "listaCpfIdentificao": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Identificao"
+      }
+    },
+    "listaCpfNacionalidade-Naturalidade": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Nacionalidade_Naturalidade"
+      }
+    },
+    "listaCpfOcupacao": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Ocupacao"
+      }
+    },
+    "listaCpfLocalizacao": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Localizacao"
+      }
+    },
+    "listaCpfTelemovel": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Telemovel"
+      }
+    },
+    "listaCpfDomicilio_fiscal": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CPF_Dados_Domicilio_fiscal"
+      }
+    },
+    "CPF_Completo": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "Nome": {
+          "type": "string"
+        },
+        "NomeSocial": {
+          "type": "string"
+        },
+        "ResidenteExterior": {
+          "type": "string",
+          "enum": [
+            "S",
+            "N"
+          ]
+        },
+        "CodigoPaisExterior": {
+          "type": "string"
+        },
+        "NomePaisExterior": {
+          "type": "string"
+        },
+        "NomeMae": {
+          "type": "string"
+        },
+        "DataNascimento": {
+          "type": "string",
+          "format": "date",
+          "example": "19781027"
+        },
+        "Sexo": {
+          "type": "integer"
+        },
+        "NaturezaOcupacao": {
+          "type": "string"
+        },
+        "NomeNaturezaOcupacao": {
+          "type": "string"
+        },
+        "OcupacaoPrincipal": {
+          "type": "string"
+        },
+        "NomeOcupacaoPrincipal": {
+          "type": "string"
+        },
+        "ExercicioOcupacao": {
+          "type": "string"
+        },
+        "NomeUnidadeAdministrativa": {
+          "type": "string"
+        },
+        "TipoLogradouro": {
+          "type": "string"
+        },
+        "Logradouro": {
+          "type": "string"
+        },
+        "NumeroLogradouro": {
+          "type": "string"
+        },
+        "Complemento": {
+          "type": "string"
+        },
+        "Bairro": {
+          "type": "string"
+        },
+        "Cep": {
+          "type": "integer"
+        },
+        "UF": {
+          "type": "string",
+          "enum": [
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO"
+          ]
+        },
+        "CodigoMunicipio": {
+          "type": "integer"
+        },
+        "Municipio": {
+          "type": "string"
+        },
+        "DDD": {
+          "type": "integer"
+        },
+        "Telefone": {
+          "type": "integer"
+        },
+        "UnidadeAdministrativa": {
+          "type": "integer"
+        },
+        "AnoObito": {
+          "type": "integer"
+        },
+        "Estrangeiro": {
+          "type": "string",
+          "enum": [
+            "S",
+            "N"
+          ]
+        },
+        "CodPaisNacionalidade": {
+          "type": "string"
+        },
+        "NomePaisNacionalidade": {
+          "type": "string"
+        },
+        "DataAtualizacao": {
+          "type": "string",
+          "format": "date",
+          "example": "20191125"
+        },
+        "DataInscricao": {
+          "type": "string",
+          "format": "date",
+          "example": "20191122"
+        },
+        "CodigoMunicipioNaturalidade": {
+          "type": "string"
+        },
+        "NomeMunicipioNacionalidade": {
+          "type": "string"
+        },
+        "UFMunicipioNaturalidade": {
+          "type": "string"
+        }
+      }
+    },
+    "CPF_Dados_Cadastrais": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "SituacaoCadastral": {
+          "type": "string",
+          "example": "ativo"
+        },
+        "DataAtualizacao": {
+          "type": "string",
+          "format": "date",
+          "example": "20191125"
+        },
+        "DataInscricao": {
+          "type": "string",
+          "format": "date",
+          "example": "20191122"
+        }
+      }
+    },
+    "CPF_Dados_Sensiveis": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "Sexo": {
+          "type": "integer"
+        }
+      }
+    },
+    "CPF_Dados_Identificao": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "Nome": {
+          "type": "string"
+        },
+        "NomeSocial": {
+          "type": "string"
+        },
+        "NomeMae": {
+          "type": "string"
+        },
+        "DataNascimento": {
+          "type": "string",
+          "format": "date",
+          "example": "19781027"
+        },
+        "AnoObito": {
+          "type": "integer"
+        },
+        "Estrangeiro": {
+          "type": "string",
+          "enum": [
+            "S",
+            "N"
+          ]
+        }
+      }
+    },
+    "CPF_Dados_Nacionalidade_Naturalidade": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "CodPaisNacionalidade": {
+          "type": "string"
+        },
+        "NomePaisNacionalidade": {
+          "type": "string"
+        },
+        "CodigoMunicipioNaturalidade": {
+          "type": "string"
+        },
+        "NomeMunicipioNacionalidade": {
+          "type": "string"
+        },
+        "UFMunicipioNaturalidade": {
+          "type": "string"
+        }
+      }
+    },
+    "CPF_Dados_Ocupacao": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "OcupacaoPrincipal": {
+          "type": "string"
+        },
+        "NomeOcupacaoPrincipal": {
+          "type": "string"
+        },
+        "NaturezaOcupacao": {
+          "type": "string"
+        },
+        "NomeNaturezaOcupacao": {
+          "type": "string"
+        },
+        "ExercicioOcupacao": {
+          "type": "string"
+        }
+      }
+    },
+    "CPF_Dados_Localizacao": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "ResidenteExterior": {
+          "type": "string",
+          "enum": [
+            "S",
+            "N"
+          ]
+        },
+        "CodigoPaisExterior": {
+          "type": "string"
+        },
+        "NomePaisExterior": {
+          "type": "string"
+        },
+        "TipoLogradouro": {
+          "type": "string"
+        },
+        "Logradouro": {
+          "type": "string"
+        },
+        "NumeroLogradouro": {
+          "type": "string"
+        },
+        "Complemento": {
+          "type": "string"
+        },
+        "Bairro": {
+          "type": "string"
+        },
+        "Cep": {
+          "type": "integer"
+        },
+        "UF": {
+          "type": "string",
+          "enum": [
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO"
+          ]
+        }
+      }
+    },
+    "CPF_Dados_Telemovel": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "DDD": {
+          "type": "integer"
+        },
+        "Telefone": {
+          "type": "integer"
+        }
+      }
+    },
+    "CPF_Dados_Domicilio_fiscal": {
+      "type": "object",
+      "properties": {
+        "Cpf": {
+          "type": "string"
+        },
+        "UnidadeAdministrativa": {
+          "type": "integer"
+        },
+        "NomeUnidadeAdministrativa": {
+          "type": "string"
+        },
+        "CodigoMunicipio": {
+          "type": "integer"
+        },
+        "Municipio": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
