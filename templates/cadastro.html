@@ -153,12 +153,14 @@
             </div>
 
             <div class="form-group">
-                <label for="identificacao">{{ form.identificacao.label }}:</label>
+                <label for="identificacao">{{ form.identificacao.label }}:</label><br>
+                <small class="text-muted">Envie um documento de identificação.</small>
                 {{ form.identificacao(class="form-control-file", id="identificacao") }}
                 {% for error in form.identificacao.errors %}
-                    <small class="text-danger">{{ error }}</small>
+                <small class="text-danger">{{ error }}</small>
                 {% endfor %}
             </div>
+
 
             <button id="btnTermos" class="btn btn-warning d-inline-flex align-items-center" type="button" data-url="templates/termos.html">
                 Termos e condições
@@ -267,6 +269,34 @@
             {% endif %}
         {% endif %}
     });
+
+    $(document).ready(function() {
+  // Função para verificar o CPF/CNPJ em tempo real
+  $("#cpf_cnpj").keyup(function() {
+    var cpf_cnpj = $(this).val().replace(/\D/g, '');
+
+    if (cpf_cnpj.length === 11 || cpf_cnpj.length === 14) {
+      // CPF/CNPJ possui 11 ou 14 números, removemos a mensagem de erro (se houver) e adicionamos a classe 'is-valid'
+      $(this).removeClass('is-invalid').addClass('is-valid');
+    } else {
+      // CPF/CNPJ não possui 11 ou 14 números, adicionamos a classe 'is-invalid' para mostrar a mensagem de erro
+      $(this).removeClass('is-valid').addClass('is-invalid');
+    }
+  });
+
+  // Função para verificar o telefone em tempo real
+  $("#telefone").keyup(function() {
+    var telefone = $(this).val().replace(/\D/g, '');
+
+    if (telefone.length === 11) {
+      // O telefone possui 11 números, removemos a mensagem de erro (se houver) e adicionamos a classe 'is-valid'
+      $(this).removeClass('is-invalid').addClass('is-valid');
+    } else {
+      // O telefone não possui 11 números, adicionamos a classe 'is-invalid' para mostrar a mensagem de erro
+      $(this).removeClass('is-valid').addClass('is-invalid');
+    }
+  });
+});
 </script>
     </div>
 </body>
