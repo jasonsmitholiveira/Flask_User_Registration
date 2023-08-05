@@ -1,72 +1,78 @@
-# Cadastro de Usuário - Flask Web App
+# User Registration - Flask Web App :brazil: :brazil::brazil::brazil::brazil::brazil::brazil:
 
-Este é um projeto de aplicação web desenvolvido com Flask, um framework web em Python, que permite cadastrar usuários e armazenar suas informações em um banco de dados SQLite. O projeto inclui um formulário de cadastro com validações de campos, upload de arquivos e interação com API externa para buscar informações de endereço a partir do CEP informado.
 
-## Funcionalidades
 
-- Cadastro de usuário com os seguintes campos:
-  - CPF/CNPJ (com validação de 11 ou 14 números, somente números);
-  - Nome Completo;
-  - Data de Nascimento;
-  - Gênero (opções: masculino, feminino e outros);
-  - Estado Civil (opções: solteiro, casado e outros);
-  - E-mail (com validação de e-mail válido e não duplicado);
-  - Telefone (com validação de 11 números, DDD + número do telefone, juntos);
-  - Senha (com validação de confirmação de senha);
-  - Endereço (CEP, Logradouro, Número, Complemento, Bairro, Cidade e Estado);
-  - Identificação (upload de arquivo).
+This is a web application project developed with Flask, a Python web framework, that allows users to register and store their information in a SQLite database. The project includes a registration form with field validations, file upload, and interaction with an external API to fetch address information based on the provided ZIP code.
 
-- Validações de dados em tempo real utilizando JavaScript e jQuery:
-  - Verificação de CPF/CNPJ (11 ou 14 números);
-  - Verificação de telefone (11 números).
 
-- Armazenamento seguro das senhas utilizando a biblioteca Werkzeug.
+## Functionalities:
 
-- Verificação de e-mails e CPF/CNPJ já cadastrados para evitar duplicações.
+User registration with the following fields:
 
-## Pré-requisitos
+CPF/CNPJ (validated for 11 or 14 digits, numbers only);
+Full Name;
+Date of Birth;
+Gender (options: male, female, and others);
+Marital Status (options: single, married, and others);
+Email (validated for a valid and non-duplicate email);
+Phone number (validated for 11 digits, area code + phone number, together);
+Password (with confirmation validation);
+Address (ZIP code, Street, Number, Complement, Neighborhood, City, and State);
+Identification (file upload).
+Real-time data validations using JavaScript and jQuery:
 
-- Python 3.x
-- Flask
-- Flask-WTF
-- Flask-SQLAlchemy
-- Werkzeug
-- Requests
+CPF/CNPJ validation (11 or 14 digits);
+Phone number validation (11 digits).
+Secure password storage using the Werkzeug library.
 
-## Instalação
+Verification of registered emails and CPF/CNPJ to avoid duplicates.
 
-1. Clone este repositório em sua máquina local:
+## Prerequisites:
 
+Python 3.x
+Flask
+Flask-WTF
+Flask-SQLAlchemy
+Werkzeug
+Requests
+Installation:
+
+Clone this repository to your local machine:
 ```bash
 git clone https://github.com/joseabrantesjr/SistemaJoseAbrantesJr.git
 ```
 
-2. Acesse o diretório do projeto:
+Access the project directory:
 ```bash
 cd SistemaJoseAbrantesJr
 ```
 
-3. Crie e ative um ambiente virtual (opcional, mas recomendado):
+
+Create and activate a virtual environment (optional, but recommended):
+
 ```bash
 python -m venv venv
-# No Windows: venv\Scripts\activate
-# No Linux/Mac: source venv/bin/activate
 ```
-4. Instale as dependências do projeto:
+
+On Windows: venv\Scripts\activate
+
+On Linux/Mac: source venv/bin/activate
+
+Install project dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
-5.  Inicie o servidor Flask:
+Start the Flask server:
 ```bash
 python app.py
 ```
-6. Acesse a aplicação no navegador em http://localhost:5000/
+Access the application in the browser at http://localhost:5000/
 
-## Contribuição
 
-Contribuições são bem-vindas! Se você encontrou algum problema, tem sugestões de melhorias ou deseja adicionar novas funcionalidades, fique à vontade para criar um Pull Request.
+## Contribution:
 
-## Licença
+Contributions are welcome! If you have found any issues, have suggestions for improvements, or want to add new features, feel free to create a Pull Request.
 
-Este projeto não possui licença. Sinta-se à vontade para utilizar e modificar o código de acordo com suas necessidades.
+## License:
+
+This project does not have a license. Feel free to use and modify the code according to your needs.
