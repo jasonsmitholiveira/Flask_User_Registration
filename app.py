@@ -7,12 +7,16 @@ from wtforms import StringField, DateField, SelectField, FileField, PasswordFiel
 from werkzeug.security import generate_password_hash
 from wtforms import BooleanField
 import requests
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(16)  # Gerar uma chave secreta aleatória
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # Configurar o URI do banco de dados
 app.config['UPLOAD_FOLDER'] = 'uploads'  # Adicionar a pasta para armazenar os arquivos enviados
 db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)  # Initialize Flask-Migrate
 
 # Classificações de Gênero
 GENERO_CHOICES = [('', ''), ('masculino', 'Masculino'), ('feminino', 'Feminino'), ('outro', 'Outro')]
