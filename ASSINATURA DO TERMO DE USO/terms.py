@@ -76,7 +76,7 @@ class CadastroForm(FlaskForm):
         validators.InputRequired()])  # Campo para cidade do endereço (obrigatório)
     endereco_estado = StringField('Estado', validators=[
         validators.InputRequired()])  # Campo para estado do endereço (obrigatório)
-    politica = BooleanField('Aceito os termos e condições ao realizar o cadastro.', validators=[
+    politica = BooleanField('Confirmo que li todo o conteúdo, e aceito todos os termos e condições', validators=[
         validators.InputRequired()])  # Campo para aceitar os termos e condições ao realizar o cadastro (obrigatório)
 
 
