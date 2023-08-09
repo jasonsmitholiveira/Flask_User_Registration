@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, flash, jsonify
+from flask import Flask, render_template, request, flash, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
@@ -166,6 +166,11 @@ def verificar_email():
 def login():
     return render_template('login.html')
 
+@app.route('/download-terms', methods=['GET'])
+def download_terms():
+    # Replace 'path_to_terms_pdf' with the actual path to your terms of use PDF file
+    terms_pdf_path = 'uploads/terms_of_use.pdf'
+    return send_file(terms_pdf_path, as_attachment=True)
 
 if __name__ == '__main__':
     with app.app_context():

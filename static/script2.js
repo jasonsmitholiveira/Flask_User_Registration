@@ -41,7 +41,17 @@ $("#cpf_cnpj").blur(function () {
 });
 
 
+function createAndDownloadFile(content, filename) {
+    const blob = new Blob([content], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
 
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
     // Function to show the modal
     function showTermosModal() {
        // Get user input
@@ -56,6 +66,7 @@ $("#cpf_cnpj").blur(function () {
 
         // Modal content
         const modalContent = `
+        <meta charset="UTF-8">
         <div class="modal fade" id="modalTermos" tabindex="-1" aria-labelledby="modalTermosLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
@@ -151,22 +162,36 @@ $("#cpf_cnpj").blur(function () {
 
         // Show the modal
         $("#modalTermos").modal("show");
-    }
+
+         // Create a Blob with the modal content
+    const blobContent = new Blob([modalContent], { type: 'text/html' });
+
+    // Create a URL for the Blob
+    const blobUrl = URL.createObjectURL(blobContent);
+
+    // Create a link and set attributes for downloading
+    const downloadLink = document.createElement('a');
+    downloadLink.href = blobUrl;
+    downloadLink.download = 'termos_de_servico.html';
+    downloadLink.textContent = 'Download Termos de Serviço';
+
+    // Append the link to the page
+    document.body.appendChild(downloadLink);
+
+    // Simulate a click on the link to trigger the download
+    downloadLink.click();
+
+    // Clean up the URL object
+    URL.revokeObjectURL(blobUrl);
+
+    // Remove the link from the page
+    document.body.removeChild(downloadLink);
+}
 
     // Bind the function to show the modal to the button click
     $("#btnTermos").click(showTermosModal);
 });
 
-$("#btnCadastrar").click(function () {
-    // Simulate a click event on a hidden link with the terms of use file
-    const link = document.createElement("a");
-    link.href = "uploads/terms_of_use.pdf"; // Replace with the actual path to your terms of use PDF file
-    link.download = "terms_of_use.pdf";
-    link.target = "_blank"; // Open in a new tab
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-});
 
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('cadastrar-btn').addEventListener('click', function() {
