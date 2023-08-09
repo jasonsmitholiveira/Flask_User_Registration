@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <label for="cpf_cnpj">CPF/CNPJ:</label>
+        {{ form.cpf_cnpj }}
+
+        <label for="nome_completo">Nome Completo:</label>
+        {{ form.nome_completo }}
+
+        <label for="data_nascimento">Data de Nascimento:</label>
+        {{ form.data_nascimento }}
+
+        <label for="genero">Gênero:</label>
+        {{ form.genero }}
+
+        <label for="estado_civil">Estado Civil:</label>
+        {{ form.estado_civil }}
+
+        <label for="email">E-mail:</label>
+        {{ form.email }}
+
+        <label for="telefone">Telefone:</label>
+        {{ form.telefone }}
+
+        <label for="endereco_cep">CEP:</label>
+        {{ form.endereco_cep }}
+
+        <label for="endereco_logradouro">Logradouro:</label>
+        {{ form.endereco_logradouro }}
+
+        <label for="endereco_numero">Número:</label>
+        {{ form.endereco_numero }}
+
+        <label for="endereco_complemento">Complemento:</label>
+        {{ form.endereco_complemento }}
+
+        <label for="endereco_bairro">Bairro:</label>
+        {{ form.endereco_bairro }}
+
+        <label for="endereco_cidade">Cidade:</label>
+        {{ form.endereco_cidade }}
+
+        <label for="endereco_estado">Estado:</label>
+        {{ form.endereco_estado }}
+
+        <label for="identificacao">Identificação:</label>
+        {{ form.identificacao }}
+
+        <label for="politica">Aceito os termos e condições ao realizar o cadastro:</label>
+        {{ form.politica }}
+
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>

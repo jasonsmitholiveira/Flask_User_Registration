@@ -28,7 +28,7 @@ UPLOADS_FOLDER = 'uploads'  # Define the UPLOADS_FOLDER variable
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    cpf_cnpj = db.Column(db.String(14), nullable=False, unique=True)  # CPF/CNPJ do usuário (único e obrigatório)
+    cpf_cnpj = db.Column(db.String(14), nullable=False, unique=False)  # CPF/CNPJ do usuário (único e obrigatório)
     nome_completo = db.Column(db.String(100), nullable=False)  # Nome completo do usuário (obrigatório)
     data_nascimento = db.Column(db.Date, nullable=False)  # Data de nascimento do usuário (obrigatório)
     genero = db.Column(db.String(10))  # Gênero do usuário
@@ -149,7 +149,7 @@ def cadastro_usuario():
             db.session.commit()
             flash('Cadastro realizado com sucesso', 'success')
 
-    return render_template('cadastro.html', form=form)
+    return render_template('cadastro2.html', form=form)
 
 @app.route('/login', methods=['GET'])
 def login():

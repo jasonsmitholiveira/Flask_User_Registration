@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Usuário</title>
+    <!-- Include Bootstrap CSS (adjust the paths as necessary) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Cadastro de Usuário</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    <ul>
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <div class="form-group">
+                <label for="cpf_cnpj">{{ form.cpf_cnpj.label }}:</label>
+                {{ form.cpf_cnpj(class="form-control", id="cpf_cnpj") }}
+                <small id="cpfStatus" class="form-text text-muted"></small>
+                {% for error in form.cpf_cnpj.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="data_nascimento">{{ form.data_nascimento.label }}:</label>
+                {{ form.data_nascimento(class="form-control", id="data_nascimento") }}
+                {% for error in form.data_nascimento.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="nome_completo">{{ form.nome_completo.label }}:</label>
+                {{ form.nome_completo(class="form-control", id="nome_completo") }}
+                {% for error in form.nome_completo.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+
+
+            <div class="form-group">
+                {{ form.genero.label }}:
+                {{ form.genero(class="form-control") }}
+                {% for error in form.genero.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.estado_civil.label }}:
+                {{ form.estado_civil(class="form-control") }}
+                {% for error in form.estado_civil.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label }}:
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.telefone.label }}:
+                {{ form.telefone(class="form-control") }}
+                {% for error in form.telefone.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_cep.label }}:
+                {{ form.endereco_cep(class="form-control", id="cep") }}
+                {% for error in form.endereco_cep.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_logradouro.label }}:
+                {{ form.endereco_logradouro(class="form-control") }}
+                {% for error in form.endereco_logradouro.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_numero.label }}:
+                {{ form.endereco_numero(class="form-control") }}
+                {% for error in form.endereco_numero.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_complemento.label }}:
+                {{ form.endereco_complemento(class="form-control") }}
+                {% for error in form.endereco_complemento.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_bairro.label }}:
+                {{ form.endereco_bairro(class="form-control") }}
+                {% for error in form.endereco_bairro.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_cidade.label }}:
+                {{ form.endereco_cidade(class="form-control") }}
+                {% for error in form.endereco_cidade.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.endereco_estado.label }}:
+                {{ form.endereco_estado(class="form-control") }}
+                {% for error in form.endereco_estado.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <button id="btnTermos" class="btn btn-warning d-inline-flex align-items-center" type="button" data-url="templates/termos.html">
+                Termos e condições
+                <svg class="bi ms-1" width="20" height="20"><use xlink:href="#arrow-right-short"/></svg>
+            </button>
+
+            <div class="container mt-3">
+                <div class="form-group form-check">
+                    {{ form.politica(class="form-check-input", id="politica") }}
+                    <label class="form-check-label" for="politica">{{ form.politica.label }}</label>
+                    {% for error in form.politica.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary">
+                <br>
+                <small class="text-muted">Ao se cadastrar, você concorda com os Termos de Serviço e a Política de Privacidade, incluindo o Uso de Cookies, disponiveis para leitura no botão Termos e condições.</small>
+            </div>
+        </form>
+
+    <!-- Include Bootstrap JS and jQuery (adjust the paths as necessary) -->
+        <script src="https://viacep.com.br/ws/@/json/" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Adicione o jQuery (antes do Bootstrap JavaScript) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Adicione os scripts do Bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+        <script src="static/script.js"></script>
+    </div>
+</body>
+</html>
