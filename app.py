@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, flash, jsonify, send_file
+from flask import Flask, render_template, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
@@ -23,8 +23,6 @@ GENERO_CHOICES = [('', ''), ('masculino', 'Masculino'), ('feminino', 'Feminino')
 
 # Classificações de Estado Civil
 ESTADO_CIVIL_CHOICES = [('', ''), ('solteiro', 'Solteiro'), ('casado', 'Casado'), ('divorciado', 'Divorciado'), ('viuvo', 'Viúvo')]
-
-UPLOADS_FOLDER = 'uploads'  # Define the UPLOADS_FOLDER variable
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,7 +68,7 @@ class CadastroForm(FlaskForm):
     endereco_bairro = StringField('Bairro', validators=[validators.InputRequired()])  # Campo para bairro do endereço (obrigatório)
     endereco_cidade = StringField('Cidade', validators=[validators.InputRequired()])  # Campo para cidade do endereço (obrigatório)
     endereco_estado = StringField('Estado', validators=[validators.InputRequired()])  # Campo para estado do endereço (obrigatório)
-    identificacao = FileField('Identificação', validators=[validators.InputRequired()], render_kw={"multiple": True})  # Allow multiple file uploads
+    identificacao = FileField('Identificação', validators=[validators.InputRequired()])  # Campo para arquivo de identificação (obrigatório)
     politica = BooleanField('Aceito os termos e condições ao realizar o cadastro.', validators=[validators.InputRequired()])  # Campo para aceitar os termos e condições ao realizar o cadastro (obrigatório)
 
     def fetch_address_data(cep):
@@ -90,7 +88,7 @@ class CadastroForm(FlaskForm):
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename):
-    # Function to verify if the file has an allowed extension
+    # Função para verificar se o arquivo possui uma extensão permitida
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
@@ -119,22 +117,11 @@ def cadastro_usuario():
             endereco_estado=form.endereco_estado.data,
         )
 
-        # Create a folder with the user's nome_completo
-        user_folder = os.path.join(UPLOADS_FOLDER, form.nome_completo.data)
-        if not os.path.exists(user_folder):
-            os.makedirs(user_folder)
-
-        # Handle the uploaded files
-        filenames = []
-        for file in request.files.getlist('identificacao'):
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file_path = os.path.join(user_folder, filename)  # Save the file in the user's folder
-                file.save(file_path)
-                filenames.append(filename)
-
-        # Store the list of filenames in the database
-        novo_usuario.identificacao_arquivo = ", ".join(filenames)
+        # Lidar com o arquivo enviado
+        if form.identificacao.data and allowed_file(form.identificacao.data.filename):
+            filename = secure_filename(form.identificacao.data.filename)
+            form.identificacao.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            novo_usuario.identificacao_arquivo = filename
 
         # Verificar se o CPF/CNPJ e o email já estão registrados
         existing_user_by_cpf = User.query.filter_by(cpf_cnpj=form.cpf_cnpj.data).first()
@@ -166,11 +153,6 @@ def verificar_email():
 def login():
     return render_template('login.html')
 
-@app.route('/download-terms', methods=['GET'])
-def download_terms():
-    # Replace 'path_to_terms_pdf' with the actual path to your terms of use PDF file
-    terms_pdf_path = 'uploads/terms_of_use.pdf'
-    return send_file(terms_pdf_path, as_attachment=True)
 
 if __name__ == '__main__':
     with app.app_context():

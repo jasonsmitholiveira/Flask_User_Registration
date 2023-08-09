@@ -64,7 +64,7 @@ $("#cpf_cnpj").blur(function () {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                                        <h1>Termos de Serviço </h1>
+                    <h1>Termos de Serviço </h1>
 <p>Estes Termos de Serviço estabelecem os direitos, obrigações e responsabilidades entre as partes a seguir mencionadas:</p>
 <p>De um lado, denominado LOCADOR, identificado como José Calazans Abrantes Júnior.</p>
 <p>De outro lado, denominado LOCATÁRIO, identificado como ${nome_completo}, portador do CPF ${cpf_cnpj},
@@ -136,7 +136,6 @@ $("#cpf_cnpj").blur(function () {
     <p>Cookies de Terceiros: Nossos parceiros de publicidade e análise também podem usar cookies em nosso site. Esses cookies são regidos pelas políticas de privacidade de terceiros, e não temos controle sobre eles.</p>
 
     <p>Ao utilizar os serviços de aluguel de equipamentos de José Calazans Abrantes Júnior, você concorda com os Termos de Serviço, a Política de Privacidade e o Uso de Cookies aqui estabelecidos. É importante ler e compreender completamente estes documentos antes de utilizar nossos serviços.</p>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -157,20 +156,3 @@ $("#cpf_cnpj").blur(function () {
     $("#btnTermos").click(showTermosModal);
 });
 
-$("#btnCadastrar").click(function () {
-    // Simulate a click event on a hidden link with the terms of use file
-    const link = document.createElement("a");
-    link.href = "uploads/terms_of_use.pdf"; // Replace with the actual path to your terms of use PDF file
-    link.download = "terms_of_use.pdf";
-    link.target = "_blank"; // Open in a new tab
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-});
-
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('cadastrar-btn').addEventListener('click', function() {
-            // Simulate a click event on the hidden download link
-            document.getElementById('download-terms-link').click();
-        });
-    });
