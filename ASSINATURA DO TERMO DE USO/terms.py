@@ -127,9 +127,8 @@ def cadastro_usuario():
         db.session.add(novo_usuario)
         db.session.commit()
 
-        # Configurações do servidor de e-mail (Exemplo: Gmail)
-        email_servidor = 'gotrekbrasil@gmail.com'  # Coloque o seu endereço de e-mail
-        email_senha = 'yeixpnjesuqvarvs'  # Coloque sua senha do e-mail
+        email_servidor = os.environ.get('EMAIL_SERVIDOR')
+        email_senha = os.environ.get('EMAIL_SENHA')
         smtp_servidor = 'smtp.gmail.com'
         smtp_porta = 587
 
