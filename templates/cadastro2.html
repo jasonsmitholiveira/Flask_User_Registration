@@ -3,36 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+    <title>User Registration</title>
 </head>
 <body>
-    <h1>Cadastro de Usuário</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <h1>User Registration</h1>
+    <form method="POST">
         {{ form.hidden_tag() }}
         <div>
             {{ form.email.label }}
-            {{ form.email }}
+            {{ form.email() }}
         </div>
         <div>
             {{ form.senha.label }}
-            {{ form.senha }}
+            {{ form.senha() }}
         </div>
         <div>
             {{ form.confirmar_senha.label }}
-            {{ form.confirmar_senha }}
+            {{ form.confirmar_senha() }}
         </div>
         <div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit">Register</button>
         </div>
     </form>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+
 </body>
 </html>
