@@ -1,78 +1,75 @@
-# User Registration - Flask Web App :brazil: :brazil::brazil::brazil::brazil::brazil::brazil:
+# Flask User Registration App
 
+Este é um aplicativo de registro de usuário simples desenvolvido com o framework Flask. Ele permite que os usuários se cadastrem com um e-mail e uma senha e armazena os detalhes dos usuários em um banco de dados SQLite.
 
+## Recursos
 
-This is a web application project developed with Flask, a Python web framework, that allows users to register and store their information in a SQLite database. The project includes a registration form with field validations, file upload, and interaction with an external API to fetch address information based on the provided ZIP code.
+- Registro de usuário com validação de e-mail e senha.
+- Senhas armazenadas no banco de dados como hashes para segurança.
+- Verificação de duplicatas de e-mail no banco de dados.
+- Funcionalidade básica de login e logout.
 
+## Pré-requisitos
 
-## Functionalities:
+Antes de executar o aplicativo, certifique-se de ter as seguintes dependências instaladas:
 
-User registration with the following fields:
+- Python 3.x
+- Flask
+- Flask-WTF
+- WTForms
+- SQLAlchemy
+- Flask-Migrate
+- Werkzeug
 
-CPF/CNPJ (validated for 11 or 14 digits, numbers only);
-Full Name;
-Date of Birth;
-Gender (options: male, female, and others);
-Marital Status (options: single, married, and others);
-Email (validated for a valid and non-duplicate email);
-Phone number (validated for 11 digits, area code + phone number, together);
-Password (with confirmation validation);
-Address (ZIP code, Street, Number, Complement, Neighborhood, City, and State);
-Identification (file upload).
-Real-time data validations using JavaScript and jQuery:
+Você pode instalar essas dependências usando o `pip`:
 
-CPF/CNPJ validation (11 or 14 digits);
-Phone number validation (11 digits).
-Secure password storage using the Werkzeug library.
-
-Verification of registered emails and CPF/CNPJ to avoid duplicates.
-
-## Prerequisites:
-
-Python 3.x
-Flask
-Flask-WTF
-Flask-SQLAlchemy
-Werkzeug
-Requests
-Installation:
-
-Clone this repository to your local machine:
 ```bash
-git clone https://github.com/joseabrantesjr/SistemaJoseAbrantesJr.git
+pip install Flask Flask-WTF WTForms SQLAlchemy Flask-Migrate Werkzeug
 ```
 
-Access the project directory:
-```bash
-cd SistemaJoseAbrantesJr
-```
+Configuração
 
+    Clone o repositório:
 
-Create and activate a virtual environment (optional, but recommended):
+bash
 
-```bash
-python -m venv venv
-```
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 
-On Windows: venv\Scripts\activate
+    Configure sua chave secreta:
 
-On Linux/Mac: source venv/bin/activate
+No arquivo app.py, substitua 'your_secret_key_here' pela sua chave secreta para segurança da aplicação.
 
-Install project dependencies:
-```bash
-pip install -r requirements.txt
-```
-Start the Flask server:
-```bash
+    Configure a URI do banco de dados:
+
+No arquivo app.py, substitua 'sqlite:///your_database.db' pelo caminho do seu banco de dados SQLite.
+Uso
+
+Execute o aplicativo usando o seguinte comando:
+
+bash
+
 python app.py
-```
-Access the application in the browser at http://localhost:5000/
+
+O aplicativo estará disponível em http://localhost:8000/.
+Estrutura do Banco de Dados
+
+O aplicativo utiliza um banco de dados SQLite para armazenar os detalhes dos usuários. A tabela User é criada automaticamente com as seguintes colunas:
+
+    id (Chave primária)
+    email (E-mail do usuário)
+    senha (Hash da senha do usuário)
+
+Contribuição
+
+Sinta-se à vontade para contribuir para este projeto. Você pode abrir problemas (issues) ou enviar pull requests com melhorias e correções.
+Licença
+
+Este projeto está licenciado sob a MIT License.
+
+Nota: Este é um aplicativo de demonstração simples e pode precisar de melhorias e recursos adicionais para uso em um ambiente de produção. Certifique-se de seguir as melhores práticas de segurança e considerar a escalabilidade ao adaptar este aplicativo para fins reais.
+
+javascript
 
 
-## Contribution:
-
-Contributions are welcome! If you have found any issues, have suggestions for improvements, or want to add new features, feel free to create a Pull Request.
-
-## License:
-
-This project does not have a license. Feel free to use and modify the code according to your needs.
+Lembre-se de substituir `seu-usuario` e `seu-repositorio` pelos seus detalhes de usuário e repositório do GitHub. Além disso, inclua o arquivo `LICENSE` correspondente se desejar especificar uma licença diferente. Certifique-se de personalizar o README conforme necessário para atender às necessidades do seu projeto.
