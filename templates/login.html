@@ -1,12 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <a href="{{ url_for('login') }}">Login with Auth0</a>
-</body>
+  <html lang="pt" >
+  <head>
+        <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    
+    <meta name="robots" content="noindex, nofollow" />
+    
+    
+    <link rel="stylesheet" href="https://cdn.auth0.com/ulp/react-components/1.78.14/css/main.cdn.min.css" />
+    <style id="custom-styles-container">
+      
+        
+
+body {
+  background: #000;
+  font-family: ulp-font, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif;
+}
+.cfba097d8 {
+  background: #000;
+}
+.c7b03379c.c3f5d6f8b {
+  background: #D00E17;
+}
+.c7b03379c.c535c1b25 {
+  background: #0A8852;
+}
+.c24f2ad5c {
+  background-color: #0059d6;
+  color: #fff;
+}
+.c24f2ad5c a,
+.c24f2ad5c a:visited {
+  color: #fff;
+}
+.cdc3a0e30 {
+  background-color: #0A8852;
+}
+.c716126d7 {
+  background-color: #D00E17;
+}
+@supports (mask-image: url('/static/img/branding-generic/copy-icon.svg')) {
+  @supports not (-ms-ime-align: auto) {
+    .ca19662c8.c6e82bb04::before {
+      background-color: #D00E17;
+    }
+  }
+}
+.input.c25875340 {
+  border-color: #D00E17;
+}
+.error-cloud {
+  background-color: #D00E17;
+}
+.error-fatal {
+  background-color: #D00E17;
+}
+.error-local {
+  background-color: #D00E17;
+}
+#alert-trigger {
+  background-color: #D00E17;
+}
+      
+    </style>
+    <style>
+    /* By default, hide features for javascript-disabled browsing */
+    /* We use !important to override any css with higher specificity */
+    /* It is also overriden by the styles in <noscript> in the header file */
+    .no-js {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  </style>
+  <noscript>
+    <style>
+      /* We use !important to override the default for js enabled */
+      /* If the display should be other than block, it should be defined specifically here */
+      .js-required { display: none !important; }
+      .no-js {
+        clip: auto;
+        clip-path: none;
+        height: auto;
+        overflow: auto;
+        position: static;
+        white-space: normal;
+        width: var(--prompt-width);
+      }
+    </style>
+  </noscript>
+    
+    <title>Log in | All Applications</title>
+  </head>
+  
+  <body>
+    <div class="cfba097d8 cd717c1e0">
+  
+<main class="c9f0ef1f7 login">
+  <section class="ce128f585 _prompt-box-outer">
+    <div class="cd130f380 c804ab97b">
+      
+        <div class="c5098ad59">
+          <span id="alert-trigger"></span>
+        
+          <div class="ca17f491c">
+            <ul class="cafbc3b93">
+              
+                <li>
+                  <h2 class="ce8f12207">Alertas</h2>
+                </li>
+              
+            
+              
+                <li class="c97781eb2">
+                  <span class="cfb583623">
+                    <span class="ce9e954c1 c381da078"></span>
+                  </span>
+                
+                  <h3 class="cc17d90cf">Chaves de desenvolvedor</h3>
+                
+                  <p class="c133c5caa">Há uma ou mais conexões usando as chaves de desenvolvedor Auth0 e não devem ser usados na produção.</p>
+                
+                  
+                    <a class="c9eecbbd0 c22f2db84 ce05eb6f2" href="https://auth0.com/docs/connections/social/devkeys" target="_blank" aria-label="">Mais informações</a>
+                  
+                </li>
+              
+            </ul>
+          </div>
+        </div>
+      
+    
+      <div class="ceacd4d8b">
+        <header class="cbf089fc7 c1db993b7">
+          <div title="dev-2gsi4ec5p4pa85ff" id="custom-prompt-logo" style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important"></div>
+        
+          <img class="ca112f47e c44cb4ce5" id="prompt-logo-center" src="https://cdn.auth0.com/styleguide/components/1.0.8/media/logos/img/badge.png" alt="dev-2gsi4ec5p4pa85ff" />
+        
+          
+            <h1 class="c7a402079 c06b1d26c">Bem-vindo</h1>
+          
+        
+          <div class="cde890fb6 ce90b1aa4">
+            
+              <p class="cb8ff6f51 c54cef1a1">Fazer login no dev-2gsi4ec5p4pa85ff e continuar para All Applications.</p>
+            
+          </div>
+        </header>
+      
+        <div class="cb67df1da c694f18dd">
+          
+        
+          
+            <form method="POST" class="c12db2c34 c0a0e26cf" data-form-primary="true">
+              <input type="hidden" name="state" value="hKFo2SBCY21uYTVpZEN1UHRlODF1Z3V5MTlTaDl1UFB4VzJuc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHBNM0VaODZYc2EyYllYSElZX3o0LW45S3R4d2RDMENso2NpZNkgSVA5a0NxVHZDR0xnT3FQRDlpM3ByUzFZRlVDRUF0MXE" />
+            
+              
+                
+                  <div style="visibility: hidden !important; position: absolute !important" aria-hidden="true">
+                    <button type="submit" name="action" value="default" style="visibility: hidden !important" aria-hidden="true" tabindex="-1">Continuar</button>
+                  </div>
+                
+              
+            
+              <div class="c62f2b894 ca3576e72">
+                <div class="cd65f57e0">
+                  <div class="input-wrapper _input-wrapper">
+                    <div class="ca19662c8 c0749183e text c7cb8011d" data-action-text="" data-alternate-action-text="">
+                      <label class="c9d37bb1f no-js ce8354906 c159bf8c3" for="username">
+                        Endereço de e-mail
+                      </label>
+                    
+                      <input class="input cbbf11f5c c4ba53c60" inputMode="email" name="username" id="username" type="text" value="" required autoComplete="username" autoCapitalize="none" spellCheck="false" autoFocus />
+                    
+                      <div class="c9d37bb1f js-required ce8354906 c159bf8c3" data-dynamic-label-for="username" aria-hidden="true">
+                        Endereço de e-mail
+                      </div>
+                    </div>
+                  
+                    
+                  </div>
+                
+                  <div class="input-wrapper _input-wrapper">
+                    <div class="ca19662c8 c0749183e password c03fcb6d6" data-action-text="" data-alternate-action-text="">
+                      <label class="c9d37bb1f no-js ce8354906 c189ccd39" for="password">
+                        Senha
+                      </label>
+                    
+                      <input class="input cbbf11f5c c24e80294" name="password" id="password" type="password" required autoComplete="current-password" autoCapitalize="none" spellCheck="false" />
+                    
+                      <div class="c9d37bb1f js-required ce8354906 c189ccd39" data-dynamic-label-for="password" aria-hidden="true">
+                        Senha
+                      </div>
+                    
+                      <button type="button" class="ce7494284 ulp-button-icon c5bf19ed3 _button-icon" data-action="toggle">
+                        <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Mostrar senha</span>
+                      
+                        <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Ocultar senha</span>
+                      
+                        <span class="screen-reader-only password-toggle-label" data-label="show-password">Mostrar senha</span>
+                      
+                        <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Ocultar senha</span>
+                      
+                        <span class="ce9e954c1 password js-required" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  
+                    
+                  </div>
+                
+                  
+                </div>
+              </div>
+            
+              
+                
+                  
+                    <p class="ceecb7b3e ca1174346">
+                      
+                        <a class="c9eecbbd0 c47a86685 ce05eb6f2" href="/templates/reset-password.html" aria-label="">Esqueceu a senha?</a>
+                      
+                    </p>
+                  
+                
+              
+            
+              <div class="c6d5cc3be">
+                
+                  <button type="submit" name="action" value="default" class="ce7494284 c24f2ad5c c5bf19ed3 c66fbaaf0 c35f6b169" data-action-button-primary="true">Continuar</button>
+                
+              </div>
+            </form>
+          
+        
+          
+            <div class="ulp-alternate-action  _alternate-action __s16nu9">
+              <p class="cb8ff6f51 c54cef1a1 c0e5a9db2">Não tem uma conta?
+                <a class="c9eecbbd0 ce05eb6f2" href="/u/signup?state=hKFo2SBCY21uYTVpZEN1UHRlODF1Z3V5MTlTaDl1UFB4VzJuc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHBNM0VaODZYc2EyYllYSElZX3o0LW45S3R4d2RDMENso2NpZNkgSVA5a0NxVHZDR0xnT3FQRDlpM3ByUzFZRlVDRUF0MXE" aria-label="">Registrar</a>
+              </p>
+            </div>
+          
+        
+          
+            <div class="c8fd4307c cc6db5d9e">
+              <span>Ou</span>
+            </div>
+          
+        
+          
+            <div class="cda1daf8c c62524078">
+              
+                <form method="post" data-provider="google" class="c5366f585 c9ff0e6f3 c14b9751e" data-form-secondary="true">
+                  <input type="hidden" name="state" value="hKFo2SBCY21uYTVpZEN1UHRlODF1Z3V5MTlTaDl1UFB4VzJuc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHBNM0VaODZYc2EyYllYSElZX3o0LW45S3R4d2RDMENso2NpZNkgSVA5a0NxVHZDR0xnT3FQRDlpM3ByUzFZRlVDRUF0MXE" />
+                
+                  <input type="hidden" name="connection" value="google-oauth2" />
+                
+                  <button type="submit" class="c97288905 c6d63c797 cdf193067" data-provider="google" data-action-button-secondary="true">
+                    
+                      <span class="ce2203299 ccafe093c" data-provider="google"></span>
+                    
+                  
+                    <span class="c96391cbf">Continuar com Google</span>
+                  </button>
+                </form>
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  
+    
+      <a href="https://auth0.com/?utm_source=lock&amp;utm_campaign=badge&amp;utm_medium=widget" target="_blank" rel="noopener noreferrer" class="cec67e64e" aria-label="Link para o site Auth0">
+        <span class="c9ab9bca7"></span>
+      </a>
+    
+  </section>
+</main>
+<script id="client-scripts" type="text/javascript">
+!function(){var t,e,m,h,b,g,w,n,r={exports:function(n,a){var r={};function i(t,e,n,r){return t.addEventListener(e,n,r)}function o(t){return"string"==typeof t}function c(t,e){return t.getAttribute(e)}function s(t,e,n){return t.setAttribute(e,n)}return{addClass:function(t,e){if(t.classList)return t.classList.add(e);var n=t.className.split(" ");-1===n.indexOf(e)&&(n.push(e),t.className=n.join(" "))},toggleClass:function(t,e){if(t.classList)return t.classList.toggle(e);var n=t.className.split(" "),r=n.indexOf(e);-1!==r?n.splice(r,1):n.push(e),t.className=n.join(" ")},hasClass:function(t,e){return t.classList?t.classList.contains(e):-1!==t.className.split(" ").indexOf(e)},addClickListener:function(t,e){return i(t,"click",e)},addEventListener:i,getAttribute:c,getElementById:function(t){return a.getElementById(t)},getParent:function(t){return t.parentNode},isString:o,loadScript:function(t,e){var n=a.createElement("script");for(var r in e)r.startsWith("data-")?n.dataset[r.replace("data-","")]=e[r]:n[r]=e[r];n.src=t,a.body.appendChild(n)},poll:function(t){var i=t.interval||2e3,e=t.url||n.location.href,o=t.condition||function(){return!0},c=t.onSuccess||function(){},s=t.onError||function(){};return setTimeout(function r(){var a=new XMLHttpRequest;return a.open("GET",e),a.setRequestHeader("Accept","application/json"),a.onload=function(){if(200===a.status){var t="application/json"===a.getResponseHeader("Content-Type").split(";")[0]?JSON.parse(a.responseText):a.responseText;return o(t)?c():setTimeout(r,i)}if(429!==a.status)return s({status:a.status,responseText:a.responseText});var e=1e3*Number.parseInt(a.getResponseHeader("X-RateLimit-Reset")),n=e-(new Date).getTime();return setTimeout(r,i<n?n:i)},a.send()},i)},querySelector:function(t,e){return o(t)?a.querySelector(t):t.querySelector(e)},querySelectorAll:function(t,e){var n=o(t)?a.querySelectorAll(t):t.querySelectorAll(e);return Array.prototype.slice.call(n)},removeClass:function(t,e){if(t.classList)return t.classList.remove(e);var n=t.className.split(" "),r=n.indexOf(e);-1!==r&&(n.splice(r,1),t.className=n.join(" "))},removeElement:function(t){return t.remove()},setAttribute:s,removeAttribute:function(t,e){return t.removeAttribute(e)},swapAttributes:function(t,e,n){var r=c(t,e),a=c(t,n);s(t,n,r),s(t,e,a)},setGlobalFlag:function(t,e){r[t]=!!e},getGlobalFlag:function(t){return!!r[t]},preventFormSubmit:function(t){t.stopPropagation(),t.preventDefault()},matchMedia:function(t){return"function"!=typeof n.matchMedia&&n.matchMedia(t).matches},dispatchEvent:function(t,e,n){var r;"function"!=typeof Event?(r=a.createEvent("Event")).initCustomEvent(e,n,!1):r=new Event(e,{bubbles:n}),t.dispatchEvent(r)},setTimeout:setTimeout,timeoutPromise:function(t,a){return new Promise(function(e,n){var r=setTimeout(function(){n(new Error("timeoutPromise: promise timed out"))},t);a.then(function(t){clearTimeout(r),e(t)},function(t){clearTimeout(r),n(t)})})},createMutationObserver:function(t){return"undefined"==typeof MutationObserver?null:new MutationObserver(t)}}}}.exports(window,document);((t={}).exports=function(r,t,o,c,s,u,l){t("div.ca19662c8.password").forEach(function(t){var a,i,e=r(t,"input"),n=r(t,'[data-action="toggle"]');o(t,(a=e,i=n,function(t){if(t.target.classList.contains("ulp-button-icon")){if(a.type="password"===a.type?"text":"password",i){var e=i.querySelector(".show-password-tooltip"),n=i.querySelector(".hide-password-tooltip");e&&u(e,"hide"),n&&u(n,"hide")}var r=l(a);"text"===a.type?c(r,"show"):s(r,"show")}}))})},t.exports)(r.querySelector,r.querySelectorAll,r.addClickListener,r.addClass,r.removeClass,r.toggleClass,r.getParent),{exports:function(t,r,a,e){var n=t(".c9f0ef1f7"),i=t("#alert-trigger"),o=t(".c5098ad59"),c=t(".cafbc3b93"),s=!1;i&&c&&n&&e(n,function(t){var e=t.target===i,n=c.contains(t.target);return e&&!s?(r(o,"show"),void(s=!0)):e&&s||s&&!n?(a(o,"show"),void(s=!1)):void 0})}}.exports(r.querySelector,r.addClass,r.removeClass,r.addClickListener),(m="recaptcha_v2",h="recaptcha_enterprise",b="hcaptcha",g="friendly_captcha",w="arkose",(e={}).exports=function(t,e,n,r){var a,i,o,c=e("div[data-captcha-sitekey]"),s=e("div[data-captcha-sitekey] input");function u(){return e(function(){switch(d()){case m:case h:return"#ulp-recaptcha";case b:return"#ulp-hcaptcha";case g:return"#ulp-friendly-captcha";case w:return"#ulp-arkose"}}())}function l(){return c.getAttribute("data-captcha-lang")}function d(){return c.getAttribute("data-captcha-provider")}function p(){return c.getAttribute("data-captcha-sitekey")}function f(){return document.querySelector('form[data-form-primary="true"]')}function v(t){return s.value=t}c&&(a="captchaCallback_"+Math.floor(1000001*Math.random()),i=d(),o={async:!0,defer:!0},window[a]=i===w?(o["data-callback"]=a,function(t){var e;e=t,f().addEventListener("submit",function(t){e.run(),t.preventDefault()}),t.setConfig({onCompleted:function(t){v(t.token),f().submit()}})}):function(){delete window[a],function(){var t=function(){switch(d()){case m:return window.grecaptcha;case h:return window.grecaptcha.enterprise;case b:return window.hcaptcha;case g:return window.friendlyChallenge;case w:return window.arkose}}();if(d()===g)var e=new t.WidgetInstance(u(),{sitekey:p(),language:l(),doneCallback:function(t){v(t)}});else var e=t.render(u(),{sitekey:p(),"expired-callback":function(){v(""),n(c,"c6e82bb04"),t.reset(e)},callback:function(t){v(t),r(c,"c6e82bb04")}})}()},i===g&&(o.onload=window[a]),t(function(t,e,n,r){switch(d()){case m:return"https://www.recaptcha.net/recaptcha/api.js?render=explicit&hl="+t+"&onload="+e;case h:return"https://www.recaptcha.net/recaptcha/enterprise.js?render=explicit&hl="+t+"&onload="+e;case b:return"https://js.hcaptcha.com/1/api.js?render=explicit&hl="+t+"&onload="+e;case g:return"https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.12/widget.min.js";case w:return"https://"+n+".arkoselabs.com/v2/"+r+"/api.js"}}(l(),a,c.getAttribute("data-captcha-client-subdomain"),p()),o))},e.exports)(r.loadScript,r.querySelector,r.addClass,r.removeClass),((n={}).exports=function(r,t,a,i,o,c,s,u,n,l){function d(t){var e=t.target,n=c(e);e.value||l(e,"data-autofilled")?i(n,"c92628328"):o(n,"c92628328")}function p(t){var e=t.target;"onAutoFillStart"===t.animationName&&(n(e,"data-autofilled",!0),u(t.target,"change",!0),a(e,"keyup",f,{once:!0}))}function f(t){var e=t.target;n(e,"data-autofilled","")}if(r("body._simple-labels"))return t(".c9d37bb1f.no-js").forEach(function(t){o(t,"no-js")}),void t(".c9d37bb1f.js-required").forEach(function(t){i(t,"hide")});t(".ca19662c8:not(.ceb9d28f5):not(disabled)").forEach(function(t){i(t,"cb6f7ea00");var e,n=r(t,".input");n.value&&i(t,"c92628328"),a(t,"change",d),a(n,"blur",d),a(n,"animationstart",p),e=n,s(function(){e.value&&u(e,"change",!0)},100)})},n.exports)(r.querySelector,r.querySelectorAll,r.addEventListener,r.addClass,r.removeClass,r.getParent,r.setTimeout,r.dispatchEvent,r.setAttribute,r.getAttribute),{exports:function(t,e,n,r,a,i){function o(t){var e=n("submitted");r("submitted",!0),e?a(t):"apple"===i(t.target,"data-provider")&&setTimeout(function(){r("submitted",!1)},2e3)}var c=t("form");c&&c.forEach(function(t){e(t,"submit",o)})}}.exports(r.querySelectorAll,r.addEventListener,r.getGlobalFlag,r.setGlobalFlag,r.preventFormSubmit,r.getAttribute)}();
+</script>
+    </div>
+  </body>
 </html>
